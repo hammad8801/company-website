@@ -12,7 +12,7 @@ export function CTA() {
   const blobY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%'])
 
   return (
-    <section ref={ref} className="relative py-32 md:py-48 px-6 md:px-10">
+    <section ref={ref} className="relative py-32 md:py-48 px-6 md:px-10 overflow-x-clip">
       <motion.div
         style={{ scale }}
         className="relative mx-auto max-w-7xl rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-iris/15 bg-gradient-to-br from-mist via-white to-haze shadow-2xl shadow-iris/15"

@@ -27,13 +27,15 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
   }
 
   body {
     background: #FBFAFF;
     color: #171033;
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
     margin: 0;
   }
 

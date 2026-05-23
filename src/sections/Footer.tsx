@@ -28,6 +28,7 @@ export function Footer() {
             <ul className="space-y-2">
               {[
                 ['Services', '#services'],
+                ['Products', '#products'],
                 ['Process', '#process'],
                 ['Work', '#work'],
                 ['Contact', '#contact'],
