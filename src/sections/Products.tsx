@@ -17,10 +17,6 @@ import {
   Store,
   BadgeCheck,
   Package,
-  Layout,
-  MessageCircle,
-  CalendarDays,
-  BarChart,
   ArrowUpRight,
 } from 'lucide-react'
 
@@ -47,13 +43,6 @@ const products: Product[] = [
   { icon: Store, title: 'Store Selection', tag: 'Retail' },
   { icon: BadgeCheck, title: 'Club Membership', tag: 'Memberships' },
   { icon: Package, title: '3PL & Logistics', tag: 'Supply chain' },
-]
-
-const addons = [
-  { icon: Layout, title: 'Website design finalization' },
-  { icon: MessageCircle, title: 'WhatsApp integration' },
-  { icon: CalendarDays, title: 'Meeting scheduler' },
-  { icon: BarChart, title: 'Analytics' },
 ]
 
 export function Products() {
@@ -86,42 +75,6 @@ export function Products() {
           {products.map((p, i) => (
             <ProductCard key={p.title} product={p} index={i} />
           ))}
-        </div>
-
-        <div className="mt-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.8 }}
-            className="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-iris mb-8"
-          >
-            <span className="h-px w-6 bg-iris" />
-            Built-in capabilities
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {addons.map((a, i) => {
-              const Icon = a.icon
-              return (
-                <motion.div
-                  key={a.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.7, delay: i * 0.06 }}
-                  className="group flex items-center gap-4 rounded-2xl border border-ink/10 bg-gradient-to-br from-white to-mist/40 px-5 py-5 hover:border-iris/30 hover:shadow-lg hover:shadow-iris/10 transition-all"
-                >
-                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-iris/20 bg-mist text-iris group-hover:accent-gradient group-hover:text-white group-hover:border-transparent transition-colors">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="font-display text-base md:text-lg text-ink leading-snug">
-                    {a.title}
-                  </span>
-                </motion.div>
-              )
-            })}
-          </div>
         </div>
       </div>
     </section>
