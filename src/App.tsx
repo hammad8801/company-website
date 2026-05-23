@@ -17,7 +17,7 @@ function App() {
   useLenis()
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-white">
+    <div className="relative min-h-screen bg-paper text-ink">
       <ScrollProgress />
       <Navbar />
       <main>

@@ -94,7 +94,7 @@ export function Services() {
   return (
     <section
       id="services"
-      className="relative py-32 md:py-48 px-6 md:px-10 border-t border-white/5"
+      className="relative py-32 md:py-48 px-6 md:px-10 border-t border-ink/5"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeader
@@ -102,8 +102,8 @@ export function Services() {
           title={
             <>
               One partner for ERP,{' '}
-              <span className="italic font-light text-white/70">mobile</span>,
-              and <span className="italic font-light text-white/70">web</span>.
+              <span className="italic font-light accent-text">mobile</span>,
+              and <span className="italic font-light accent-text">web</span>.
             </>
           }
           description="From rollout to ongoing support — we ship complete digital systems, not just code."
@@ -129,28 +129,28 @@ function ServiceRow({ service, index }: { service: Service; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-white/25 transition-colors"
+      className="group relative rounded-3xl border border-ink/10 bg-white overflow-hidden hover:border-iris/30 hover:shadow-xl hover:shadow-iris/10 transition-all"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-br from-mist via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
       <div className="relative grid md:grid-cols-12 gap-6 md:gap-10 p-6 md:p-10">
         <div className="md:col-span-1 flex md:block items-center justify-between">
-          <span className="font-mono text-xs tracking-wider text-white/40">
+          <span className="font-mono text-xs tracking-wider text-iris/60">
             / {num}
           </span>
         </div>
 
         <div className="md:col-span-4">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/5 mb-6 group-hover:scale-110 transition-transform">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl accent-gradient text-white mb-6 group-hover:scale-110 transition-transform shadow-md shadow-iris/30">
             <Icon className="h-5 w-5" />
           </div>
-          <div className="text-xs uppercase tracking-[0.2em] text-white/40">
+          <div className="text-xs uppercase tracking-[0.2em] text-iris">
             {service.tagline}
           </div>
-          <h3 className="mt-3 font-display text-2xl md:text-3xl text-white">
+          <h3 className="mt-3 font-display text-2xl md:text-3xl text-ink">
             {service.title}
           </h3>
-          <p className="mt-4 text-white/60 leading-relaxed">
+          <p className="mt-4 text-muted leading-relaxed">
             {service.description}
           </p>
         </div>
@@ -160,9 +160,9 @@ function ServiceRow({ service, index }: { service: Service; index: number }) {
             {service.bullets.map((b) => (
               <li
                 key={b}
-                className="flex items-start gap-3 text-sm text-white/70"
+                className="flex items-start gap-3 text-sm text-ink/75"
               >
-                <span className="mt-[9px] h-px w-4 bg-white/40 shrink-0" />
+                <span className="mt-[9px] h-px w-4 bg-iris/60 shrink-0" />
                 {b}
               </li>
             ))}
@@ -170,7 +170,7 @@ function ServiceRow({ service, index }: { service: Service; index: number }) {
         </div>
 
         <div className="md:col-span-1 md:col-start-12 flex md:justify-end">
-          <ArrowUpRight className="h-5 w-5 text-white/40 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
+          <ArrowUpRight className="h-5 w-5 text-ink/40 group-hover:text-iris group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
         </div>
       </div>
     </motion.div>

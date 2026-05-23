@@ -16,7 +16,7 @@ const reasons = [
   },
   {
     t: 'Scalable architecture',
-    d: 'Systems designed to grow — from first users to the scale you haven\u2019t hit yet.',
+    d: 'Systems designed to grow — from first users to the scale you haven’t hit yet.',
   },
   {
     t: 'Transparent communication',
@@ -30,20 +30,20 @@ const reasons = [
 
 export function WhyUs() {
   return (
-    <section className="relative py-32 md:py-48 px-6 md:px-10 border-t border-white/5">
+    <section className="relative py-32 md:py-48 px-6 md:px-10 border-t border-ink/5">
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           eyebrow="Why choose us"
           title={
             <>
               Built like a product team,{' '}
-              <span className="italic font-light text-white/70">not</span> a
+              <span className="italic font-light accent-text">not</span> a
               services agency.
             </>
           }
         />
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 rounded-3xl overflow-hidden border border-white/10">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-ink/10 rounded-3xl overflow-hidden border border-ink/10">
           {reasons.map((r, i) => (
             <motion.div
               key={r.t}
@@ -51,18 +51,18 @@ export function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.8, delay: (i % 3) * 0.08 }}
-              className="group relative bg-[#0a0a0a] p-8 md:p-10 hover:bg-[#0f0f0f] transition-colors"
+              className="group relative bg-white p-8 md:p-10 hover:bg-mist/60 transition-colors"
             >
-              <div className="font-mono text-xs text-white/30 mb-6">
+              <div className="font-mono text-xs text-iris/60 mb-6">
                 {String(i + 1).padStart(2, '0')}
               </div>
-              <h3 className="font-display text-xl md:text-2xl text-white">
+              <h3 className="font-display text-xl md:text-2xl text-ink">
                 {r.t}
               </h3>
-              <p className="mt-4 text-white/60 leading-relaxed text-sm md:text-base">
+              <p className="mt-4 text-muted leading-relaxed text-sm md:text-base">
                 {r.d}
               </p>
-              <div className="absolute bottom-0 left-0 h-px bg-white/40 w-0 group-hover:w-full transition-all duration-700" />
+              <div className="absolute bottom-0 left-0 h-px accent-gradient w-0 group-hover:w-full transition-all duration-700" />
             </motion.div>
           ))}
         </div>

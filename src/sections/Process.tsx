@@ -44,7 +44,7 @@ export function Process() {
     <section
       id="process"
       ref={container}
-      className="relative border-t border-white/5"
+      className="relative border-t border-ink/5"
       style={{ height: `${steps.length * 75}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
@@ -54,9 +54,9 @@ export function Process() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-white/50"
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-iris"
             >
-              <span className="h-px w-6 bg-white/40" />
+              <span className="h-px w-6 bg-iris" />
               Our process
             </motion.div>
             <motion.h2
@@ -64,10 +64,10 @@ export function Process() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="mt-5 text-4xl md:text-6xl leading-[1.05] tracking-tight text-white text-balance max-w-3xl"
+              className="mt-5 text-4xl md:text-6xl leading-[1.05] tracking-tight text-ink text-balance max-w-3xl"
             >
               From first call to live deployment, in{' '}
-              <span className="italic font-light text-white/70">five steps</span>.
+              <span className="italic font-light accent-text">five steps</span>.
             </motion.h2>
           </div>
         </div>
@@ -81,25 +81,26 @@ export function Process() {
             {steps.map((s, i) => (
               <div
                 key={s.n}
-                className="relative shrink-0 w-[85vw] sm:w-[60vw] md:w-[44vw] lg:w-[38vw] h-[58vh] rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-transparent p-8 md:p-10 overflow-hidden"
+                className="relative shrink-0 w-[85vw] sm:w-[60vw] md:w-[44vw] lg:w-[38vw] h-[58vh] rounded-3xl border border-ink/10 bg-white p-8 md:p-10 overflow-hidden shadow-lg shadow-iris/5"
               >
-                <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-white/5 blur-3xl" />
+                <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-iris/15 blur-3xl" />
+                <div className="absolute -top-20 -left-20 h-48 w-48 rounded-full bg-rose/10 blur-3xl" />
 
                 <div className="relative flex h-full flex-col">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-sm text-white/40">
+                    <span className="font-mono text-sm text-iris">
                       / {s.n}
                     </span>
-                    <span className="text-xs uppercase tracking-[0.25em] text-white/30">
+                    <span className="text-xs uppercase tracking-[0.25em] text-muted">
                       Step {i + 1} of {steps.length}
                     </span>
                   </div>
 
                   <div className="mt-auto">
-                    <h3 className="font-display text-3xl md:text-5xl leading-[1.05] text-white">
+                    <h3 className="font-display text-3xl md:text-5xl leading-[1.05] text-ink">
                       {s.t}
                     </h3>
-                    <p className="mt-6 text-white/60 leading-relaxed md:text-lg max-w-md">
+                    <p className="mt-6 text-muted leading-relaxed md:text-lg max-w-md">
                       {s.d}
                     </p>
                   </div>
@@ -111,13 +112,13 @@ export function Process() {
 
         <div className="px-6 md:px-10 pb-8">
           <div className="mx-auto max-w-7xl">
-            <div className="h-px w-full bg-white/10 relative overflow-hidden">
+            <div className="h-px w-full bg-ink/10 relative overflow-hidden">
               <motion.div
                 style={{
                   scaleX: scrollYProgress,
                   transformOrigin: 'left',
                 }}
-                className="absolute inset-0 bg-white"
+                className="absolute inset-0 accent-gradient"
               />
             </div>
           </div>

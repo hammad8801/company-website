@@ -19,7 +19,7 @@ export function About() {
     <section
       id="about"
       ref={ref}
-      className="relative py-32 md:py-48 px-6 md:px-10 border-t border-white/5"
+      className="relative py-32 md:py-48 px-6 md:px-10 border-t border-ink/5"
     >
       <div className="mx-auto max-w-7xl">
         <motion.div
@@ -27,15 +27,15 @@ export function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8 }}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-white/50 mb-10"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-iris mb-10"
         >
-          <span className="h-px w-6 bg-white/40" />
+          <span className="h-px w-6 bg-iris" />
           Who we are
         </motion.div>
 
         <div className="grid md:grid-cols-12 gap-10">
           <div className="md:col-span-8">
-            <h2 className="text-4xl md:text-6xl leading-[1.1] tracking-tight text-balance">
+            <h2 className="text-4xl md:text-6xl leading-[1.1] tracking-tight text-balance text-ink">
               {paragraphs[0].split(' ').map((word, i) => (
                 <Word key={i} progress={scrollYProgress} index={i} total={paragraphs[0].split(' ').length}>
                   {word}
@@ -43,7 +43,7 @@ export function About() {
               ))}
             </h2>
 
-            <div className="mt-12 space-y-6 max-w-2xl text-lg text-white/70 leading-relaxed">
+            <div className="mt-12 space-y-6 max-w-2xl text-lg text-muted leading-relaxed">
               {paragraphs.slice(1).map((p, i) => (
                 <motion.p
                   key={i}
@@ -64,19 +64,20 @@ export function About() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-8 overflow-hidden glow-ring"
+              className="relative rounded-3xl border border-ink/10 bg-white p-6 md:p-8 overflow-hidden glow-ring"
             >
-              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
+              <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-iris/20 blur-3xl" />
+              <div className="absolute -bottom-20 -left-16 h-44 w-44 rounded-full bg-rose/15 blur-3xl" />
               <div className="relative">
-                <div className="text-xs uppercase tracking-[0.25em] text-white/50">
+                <div className="text-xs uppercase tracking-[0.25em] text-iris">
                   Our positioning
                 </div>
-                <p className="mt-5 font-display text-xl md:text-2xl leading-snug text-white">
+                <p className="mt-5 font-display text-xl md:text-2xl leading-snug text-ink">
                   We don't just build software — we build complete business
-                  systems powered by ERPNext.
+                  systems powered by <span className="accent-text">ERPNext</span>.
                 </p>
-                <div className="mt-8 flex items-center gap-3 text-sm text-white/50">
-                  <div className="h-px flex-1 bg-white/10" />
+                <div className="mt-8 flex items-center gap-3 text-sm text-muted">
+                  <div className="h-px flex-1 bg-ink/10" />
                   One partner — ERP, Mobile, Web.
                 </div>
               </div>
