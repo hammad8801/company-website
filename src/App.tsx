@@ -5,6 +5,7 @@ import { Marquee } from '@/components/Marquee'
 import { Hero } from '@/sections/Hero'
 import { About } from '@/sections/About'
 import { Services } from '@/sections/Services'
+import { Products } from '@/sections/Products'
 import { WhyUs } from '@/sections/WhyUs'
 import { Process } from '@/sections/Process'
 import { Industries } from '@/sections/Industries'
@@ -17,7 +18,7 @@ function App() {
   useLenis()
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-white">
+    <div className="relative min-h-screen bg-paper text-ink overflow-x-clip">
       <ScrollProgress />
       <Navbar />
       <main>
@@ -25,6 +26,7 @@ function App() {
         <Marquee />
         <About />
         <Services />
+        <Products />
         <WhyUs />
         <Process />
         <Industries />

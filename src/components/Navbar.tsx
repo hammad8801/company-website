@@ -4,6 +4,7 @@ import { cn } from '@/lib/cn'
 
 const links = [
   { label: 'Services', href: '#services' },
+  { label: 'Products', href: '#products' },
   { label: 'Process', href: '#process' },
   { label: 'Work', href: '#work' },
   { label: 'Contact', href: '#contact' },
@@ -26,18 +27,18 @@ export function Navbar() {
     >
       <div
         className={cn(
-          'mx-auto max-w-7xl flex items-center justify-between rounded-full border border-white/5 transition-all duration-500',
+          'mx-auto max-w-7xl flex items-center justify-between rounded-full border transition-all duration-500',
           scrolled
-            ? 'bg-black/60 backdrop-blur-xl px-5 py-2.5 border-white/10'
-            : 'bg-transparent px-5 py-3',
+            ? 'bg-white/80 backdrop-blur-xl px-5 py-2.5 border-ink/10 shadow-lg shadow-iris/5'
+            : 'bg-white/40 backdrop-blur-md px-5 py-3 border-ink/5',
         )}
       >
         <a href="#top" className="flex items-center gap-2.5 group">
-          <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white text-black font-display font-bold">
+          <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg accent-gradient text-white font-display font-bold">
             N
-            <span className="absolute -inset-1 rounded-xl border border-white/20 group-hover:rotate-45 transition-transform duration-500" />
+            <span className="absolute -inset-1 rounded-xl border border-iris/30 group-hover:rotate-45 transition-transform duration-500" />
           </span>
-          <span className="font-display font-medium tracking-tight text-white">
+          <span className="font-display font-medium tracking-tight text-ink">
             Nexora
           </span>
         </a>
@@ -47,7 +48,7 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="px-4 py-2 text-white/70 hover:text-white rounded-full hover:bg-white/5 transition-colors"
+              className="px-4 py-2 text-ink/70 hover:text-ink rounded-full hover:bg-mist transition-colors"
             >
               {l.label}
             </a>
@@ -56,7 +57,7 @@ export function Navbar() {
 
         <a
           href="#contact"
-          className="group inline-flex items-center gap-2 rounded-full bg-white text-black px-4 py-2 text-sm font-medium hover:bg-white/90 transition-all"
+          className="group inline-flex items-center gap-2 rounded-full accent-gradient text-white px-4 py-2 text-sm font-medium shadow-md shadow-iris/25 hover:shadow-lg hover:shadow-iris/35 transition-all"
         >
           Get in touch
           <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span>

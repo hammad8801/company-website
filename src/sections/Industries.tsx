@@ -13,13 +13,13 @@ export function Industries() {
   const row = [...industries, ...industries, ...industries]
 
   return (
-    <section className="relative py-20 md:py-28 border-y border-white/5 overflow-hidden">
+    <section className="relative py-20 md:py-28 border-y border-ink/5 bg-mist/40 overflow-hidden">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="text-center text-xs uppercase tracking-[0.3em] text-white/40 mb-10"
+        className="text-center text-xs uppercase tracking-[0.3em] text-iris mb-10"
       >
         Industries we serve
       </motion.div>
@@ -39,10 +39,10 @@ export function Industries() {
               key={`${name}-${i}`}
               className="flex items-center gap-6 md:gap-10 shrink-0"
             >
-              <span className="font-display text-3xl md:text-5xl text-white/80">
+              <span className="font-display text-3xl md:text-5xl text-ink/80">
                 {name}
               </span>
-              <span className="h-2 w-2 rounded-full bg-white/30" />
+              <span className="h-2 w-2 rounded-full accent-gradient" />
             </div>
           ))}
         </motion.div>
