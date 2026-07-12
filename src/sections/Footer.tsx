@@ -1,4 +1,6 @@
 import { motion } from 'motion/react'
+import { Link } from 'react-router-dom'
+import { company, industries, services } from '@/data/site'
 
 export function Footer() {
   return (
@@ -17,26 +19,19 @@ export function Footer() {
 
         <div className="mt-12 grid md:grid-cols-3 gap-8 md:gap-10 text-sm">
           <div className="max-w-sm text-muted">
-            We don't just build software — we build complete business systems
-            powered by ERPNext.
+            Complete business systems powered by ERPNext, Frappe, mobile apps, and modern web. One partner from architecture to go-live.
           </div>
 
           <div>
             <div className="text-xs uppercase tracking-[0.25em] text-iris mb-4">
-              Navigate
+              Services
             </div>
             <ul className="space-y-2">
-              {[
-                ['Services', '#services'],
-                ['Products', '#products'],
-                ['Process', '#process'],
-                ['Work', '#work'],
-                ['Contact', '#contact'],
-              ].map(([l, h]) => (
-                <li key={l}>
-                  <a href={h} className="text-ink/80 hover:text-iris transition-colors">
-                    {l}
-                  </a>
+              {services.map((service) => (
+                <li key={service.slug}>
+                  <Link to={`/services/${service.slug}`} className="text-ink/80 hover:text-iris transition-colors">
+                    {service.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -44,31 +39,33 @@ export function Footer() {
 
           <div>
             <div className="text-xs uppercase tracking-[0.25em] text-iris mb-4">
-              Contact
+              Company
             </div>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="mailto:hello@nexora.studio"
-                  className="text-ink/80 hover:text-iris transition-colors"
-                >
-                  hello@nexora.studio
-                </a>
+                <Link to="/work" className="text-ink/80 hover:text-iris transition-colors">Case Studies</Link>
               </li>
-              <li className="text-muted">+91 00000 00000</li>
-              <li className="text-muted">India</li>
+              <li><Link to="/process" className="text-ink/80 hover:text-iris transition-colors">How We Work</Link></li>
+              <li><Link to="/resources" className="text-ink/80 hover:text-iris transition-colors">Resources</Link></li>
+              <li><Link to="/about" className="text-ink/80 hover:text-iris transition-colors">About</Link></li>
+              <li><Link to="/contact" className="text-ink/80 hover:text-iris transition-colors">Contact</Link></li>
+              <li className="pt-3 text-xs uppercase tracking-[0.25em] text-iris">Industries</li>
+              {industries.map((industry) => (
+                <li key={industry.slug}>
+                  <Link to={`/industries/${industry.slug}`} className="text-ink/80 hover:text-iris transition-colors">
+                    {industry.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 text-xs text-muted border-t border-ink/10 pt-8">
           <div>© {new Date().getFullYear()} Nexora. All rights reserved.</div>
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inset-0 rounded-full bg-iris animate-ping opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-iris" />
-            </span>
-            Currently accepting new projects
+          <div className="flex flex-wrap items-center gap-3">
+            <a href={`mailto:${company.email}`} className="hover:text-iris transition-colors">{company.email}</a>
+            <span>{company.phone}</span>
           </div>
         </div>
       </div>

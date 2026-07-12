@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { company } from '@/data/site'
 
 export function Contact() {
   const [sent, setSent] = useState(false)
@@ -44,23 +45,23 @@ export function Contact() {
           </motion.h2>
 
           <p className="mt-6 text-muted text-lg max-w-md">
-            Drop us a line — we reply within 24 hours.
+            Tell us what is breaking in your operations, reporting, or delivery flow. We reply within 24 hours.
           </p>
 
           <div className="mt-12 space-y-5">
             <ContactLine
               icon={Mail}
               label="Email"
-              value="hello@nexora.studio"
-              href="mailto:hello@nexora.studio"
+              value={company.email}
+              href={`mailto:${company.email}`}
             />
             <ContactLine
               icon={Phone}
               label="Phone / WhatsApp"
-              value="+91 00000 00000"
-              href="tel:+910000000000"
+              value={company.phone}
+              href="tel:+919876543210"
             />
-            <ContactLine icon={MapPin} label="Location" value="India" />
+            <ContactLine icon={MapPin} label="Location" value={company.location} />
           </div>
         </div>
 
@@ -102,9 +103,9 @@ export function Contact() {
             className="relative mt-8 group w-full inline-flex items-center justify-center gap-2 rounded-full accent-gradient text-white px-6 py-4 font-medium disabled:opacity-60 shadow-lg shadow-iris/30 hover:shadow-xl hover:shadow-iris/40 transition-shadow"
           >
             {sent ? (
-              'Thanks — we’ll be in touch'
+              'Thanks — we will be in touch'
             ) : sending ? (
-              'Sending…'
+              'Sending...'
             ) : (
               <>
                 Send message

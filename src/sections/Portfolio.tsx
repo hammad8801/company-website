@@ -1,51 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { useRef } from 'react'
 import { SectionHeader } from '@/components/SectionHeader'
-
-type Work = {
-  title: string
-  category: string
-  description: string
-  meta: string
-}
-
-const work: Work[] = [
-  {
-    title: 'Inventory & Sales ERP',
-    category: 'ERPNext · Manufacturing',
-    description:
-      'End-to-end ERP rollout covering inventory, sales, procurement, and shop-floor reporting.',
-    meta: '2025',
-  },
-  {
-    title: 'Custom CRM on Frappe',
-    category: 'Frappe · B2B Sales',
-    description:
-      'Pipeline, lead scoring, and workflow automation — built natively on the Frappe Framework.',
-    meta: '2025',
-  },
-  {
-    title: 'Field Ops Android App',
-    category: 'Android · ERP-integrated',
-    description:
-      'Offline-first Android app for field teams, syncing real-time with an ERPNext backend.',
-    meta: '2024',
-  },
-  {
-    title: 'Admin Dashboard & Portal',
-    category: 'Web · Dashboards',
-    description:
-      'A responsive business website with a secured admin dashboard and analytics layer.',
-    meta: '2024',
-  },
-  {
-    title: 'Ops Automation Suite',
-    category: 'Workflows · Internal tools',
-    description:
-      'Workflow automation replacing 40+ hours of manual ops work per week.',
-    meta: '2024',
-  },
-]
+import { caseStudies } from '@/data/site'
 
 export function Portfolio() {
   return (
@@ -66,7 +22,7 @@ export function Portfolio() {
         />
 
         <div className="mt-20 divide-y divide-ink/10 border-y border-ink/10">
-          {work.map((w, i) => (
+          {caseStudies.map((w, i) => (
             <WorkRow key={w.title} work={w} index={i} />
           ))}
         </div>
@@ -75,7 +31,13 @@ export function Portfolio() {
   )
 }
 
-function WorkRow({ work, index }: { work: Work; index: number }) {
+function WorkRow({
+  work,
+  index,
+}: {
+  work: (typeof caseStudies)[number]
+  index: number
+}) {
   const ref = useRef<HTMLAnchorElement>(null)
   const mx = useMotionValue(0)
   const my = useMotionValue(0)
@@ -93,7 +55,7 @@ function WorkRow({ work, index }: { work: Work; index: number }) {
   return (
     <motion.a
       ref={ref}
-      href="#contact"
+      href={`/work/${work.slug}`}
       onMouseMove={onMove}
       onMouseLeave={() => {
         mx.set(0)
@@ -117,7 +79,7 @@ function WorkRow({ work, index }: { work: Work; index: number }) {
         {work.description}
       </div>
       <div className="col-span-4 md:col-span-1 text-xs uppercase tracking-[0.2em] text-muted">
-        {work.meta}
+        Case study
       </div>
       <div className="col-span-2 md:col-span-1 flex justify-end text-ink/40 group-hover:text-iris transition-colors">
         →
