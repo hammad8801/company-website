@@ -27,7 +27,7 @@ export function Products() {
               .
             </>
           }
-          description="Sixteen battle-tested verticals — configure, customize, and roll out fast. Each one is built on the Frappe stack and integrates cleanly with ERPNext."
+          description="Six ready-to-deploy verticals — configure, customize, and roll out fast. Each one is built on the Frappe stack and integrates cleanly with ERPNext."
         />
 
         <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">

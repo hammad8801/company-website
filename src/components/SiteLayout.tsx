@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { Footer } from '@/sections/Footer'
-import { navGroups } from '@/data/site'
+import { company, navGroups } from '@/data/site'
 
 const topLinks = [
   { label: 'Industries', href: '/industries/manufacturing' },
@@ -46,7 +46,7 @@ export function SiteLayout() {
               <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-2xl accent-gradient text-sm font-display font-bold text-white shadow-md shadow-iris/25">
                 N
               </span>
-              <span className="font-display text-lg tracking-tight text-ink">Nexora</span>
+              <span className="font-display text-lg tracking-tight text-ink">{company.name}</span>
             </Link>
 
             <nav className="hidden xl:flex items-center gap-2 text-sm">
@@ -59,7 +59,7 @@ export function SiteLayout() {
               />
               <NavDropdown
                 label="Products"
-                items={navGroups.products.slice(0, 8).concat([{ label: 'Browse all modules', href: '/products' }])}
+                items={navGroups.products.concat([{ label: 'Browse all modules', href: '/products' }])}
                 open={openMenu === 'products'}
                 onOpen={() => setOpenMenu('products')}
                 onClose={() => setOpenMenu((current) => (current === 'products' ? null : current))}
@@ -94,7 +94,12 @@ export function SiteLayout() {
           </div>
 
           {mobileOpen ? (
-            <div className="xl:hidden pt-4">
+            <div
+              data-lenis-prevent
+              data-lenis-prevent-touch
+              data-lenis-prevent-wheel
+              className="h-[calc(100dvh-7rem)] min-h-0 touch-pan-y overflow-y-scroll overscroll-contain xl:hidden pt-4 pr-1 [scrollbar-gutter:stable] [-webkit-overflow-scrolling:touch]"
+            >
               <div className="grid gap-2 border-t border-ink/10 pt-4">
                 <MobileMenuSection title="Services" items={navGroups.services} onNavigate={() => setMobileOpen(false)} />
                 <MobileMenuSection title="Products" items={navGroups.products} onNavigate={() => setMobileOpen(false)} />

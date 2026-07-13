@@ -69,7 +69,7 @@ export type CaseStudyItem = {
 }
 
 export const company = {
-  name: 'Nexora',
+  name: 'NexoraSolution',
   email: 'hello@nexorasolution.io',
   phone: '+91 98765 43210',
   location: 'India · serving clients worldwide',
@@ -178,7 +178,7 @@ export const services: ServiceItem[] = [
   },
 ]
 
-export const products: ProductItem[] = [
+const allProducts: ProductItem[] = [
   {
     slug: 'export-price-calculation',
     icon: Calculator,
@@ -405,6 +405,9 @@ export const products: ProductItem[] = [
   },
 ]
 
+// Keep the remaining modules in source, but hide them until the full catalog is ready.
+export const products = allProducts.slice(0, 6)
+
 export const industries: IndustryItem[] = [
   {
     slug: 'manufacturing',
@@ -580,7 +583,7 @@ export const processSteps = [
 export const homeTestimonials = [
   {
     quote:
-      "Nexora did not sell us software. They rebuilt how our numbers flow. Month-end went from a fire drill to a formality.",
+      "NexoraSolution did not sell us software. They rebuilt how our numbers flow. Month-end went from a fire drill to a formality.",
     author: 'Operations Director, fabrication company',
   },
   {

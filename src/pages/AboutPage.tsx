@@ -8,9 +8,9 @@ export function AboutPage() {
     <main className="pb-24">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
       <PageHero
-        badge="About Nexora"
+        badge="About NexoraSolution"
         title="The studio behind the systems"
-        description="Nexora is an ERPNext and Frappe studio based in India, serving operations-led businesses worldwide. We exist for one reason: most businesses do not have a software problem, they have a source-of-truth problem."
+        description="NexoraSolution is an ERPNext and Frappe studio based in India, serving operations-led businesses worldwide. We exist for one reason: most businesses do not have a software problem, they have a source-of-truth problem."
       />
 
       <section className="px-6 md:px-10 py-8">
@@ -63,4 +63,3 @@ export function AboutPage() {
     </main>
   )
 }
-

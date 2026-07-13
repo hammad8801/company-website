@@ -11,10 +11,10 @@ export function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 1 }}
-          className="font-display leading-[0.85] tracking-tighter accent-text select-none"
-          style={{ fontSize: 'clamp(64px, 18vw, 280px)' }}
+          className="w-full whitespace-nowrap font-display leading-none tracking-[-0.055em] accent-text select-none"
+          style={{ fontSize: 'clamp(40px, 7.2vw, 120px)' }}
         >
-          NEXORA
+          {company.name.toUpperCase()}
         </motion.div>
 
         <div className="mt-12 grid md:grid-cols-3 gap-8 md:gap-10 text-sm">
@@ -62,7 +62,7 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 text-xs text-muted border-t border-ink/10 pt-8">
-          <div>© {new Date().getFullYear()} Nexora. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} {company.name}. All rights reserved.</div>
           <div className="flex flex-wrap items-center gap-3">
             <a href={`mailto:${company.email}`} className="hover:text-iris transition-colors">{company.email}</a>
             <span>{company.phone}</span>

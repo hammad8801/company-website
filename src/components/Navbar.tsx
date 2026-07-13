@@ -39,7 +39,7 @@ export function Navbar() {
             <span className="absolute -inset-1 rounded-xl border border-iris/30 group-hover:rotate-45 transition-transform duration-500" />
           </span>
           <span className="font-display font-medium tracking-tight text-ink">
-            Nexora
+            NexoraSolution
           </span>
         </a>
 

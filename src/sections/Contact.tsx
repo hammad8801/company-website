@@ -59,7 +59,7 @@ export function Contact() {
               icon={Phone}
               label="Phone / WhatsApp"
               value={company.phone}
-              href="tel:+919876543210"
+              href={`tel:${company.phone.replace(/[^\d+]/g, '')}`}
             />
             <ContactLine icon={MapPin} label="Location" value={company.location} />
           </div>
@@ -76,7 +76,7 @@ export function Contact() {
           <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-iris/15 blur-3xl pointer-events-none" />
 
           <div className="relative space-y-6">
-            <Field label="Your name" name="name" placeholder="Hammad Ali" />
+            <Field label="Your name" name="name" placeholder="John Doe" />
             <Field
               label="Email"
               type="email"

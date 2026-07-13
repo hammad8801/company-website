@@ -14,9 +14,9 @@ export function ProductsPage() {
     <main className="pb-24">
       <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
       <PageHero
-        badge="16 modules"
+        badge="6 modules"
         title="ERPNext and Frappe Business Modules"
-        description="Ready-to-deploy modules, from POS and payroll to logistics and legal case management. Configure and roll out fast, with each module integrating cleanly into your ERPNext system."
+        description="Ready-to-deploy modules for export pricing, leasing, distribution, facilities, restaurants, and parking. Configure and roll out fast, with each module integrating cleanly into your ERPNext system."
       />
 
       <section className="px-6 md:px-10 py-8">
@@ -64,4 +64,3 @@ export function ProductsPage() {
     </main>
   )
 }
-
