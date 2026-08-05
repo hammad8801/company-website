@@ -1,5 +1,6 @@
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
+import { BrandWordmark } from '@/components/BrandWordmark'
 import { cn } from '@/lib/cn'
 
 const links = [
@@ -38,9 +39,7 @@ export function Navbar() {
             Nas
             <span className="absolute -inset-1 rounded-xl border border-iris/30 group-hover:rotate-45 transition-transform duration-500" />
           </span>
-          <span className="font-display font-medium tracking-tight text-ink">
-            NexoraSolution
-          </span>
+          <BrandWordmark className="text-[15px]" />
         </a>
 
         <nav className="hidden md:flex items-center gap-1 text-sm">

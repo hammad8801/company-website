@@ -11,10 +11,10 @@ export function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 1 }}
-          className="w-full whitespace-nowrap font-display leading-none tracking-[-0.055em] accent-text select-none"
+          className="w-full whitespace-nowrap font-display leading-none tracking-[-0.055em] text-black select-none"
           style={{ fontSize: 'clamp(40px, 7.2vw, 120px)' }}
         >
-          {company.name.toUpperCase()}
+          {company.name.replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase()}
         </motion.div>
 
         <div className="mt-12 grid md:grid-cols-3 gap-8 md:gap-10 text-sm">

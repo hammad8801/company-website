@@ -2,9 +2,10 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
 import { ChevronDown, Menu, X } from 'lucide-react'
+import { BrandWordmark } from '@/components/BrandWordmark'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { Footer } from '@/sections/Footer'
-import { company, navGroups } from '@/data/site'
+import { navGroups } from '@/data/site'
 import markUrl from '../../nexora-brand-kit/logos/nexora-appicon.svg'
 
 const topLinks = [
@@ -52,7 +53,7 @@ export function SiteLayout() {
                   // className="h-7 w-7 object-contain"
                 />
               </span>
-              <span className="font-display text-lg tracking-tight text-ink">{company.name}</span>
+              <BrandWordmark className="text-base" />
             </Link>
 
             <nav className="hidden xl:flex items-center gap-2 text-sm">
