@@ -70,8 +70,8 @@ export type CaseStudyItem = {
 
 export const company = {
   name: 'NexoraSolution',
-  email: 'hello@nexorasolution.io',
-  phone: '+91 98765 43210',
+  email: 'info.nexorasolution@gmail.com',
+  phone: '+91 78620 40233',
   location: 'India · serving clients worldwide',
 }
 

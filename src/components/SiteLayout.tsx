@@ -5,6 +5,7 @@ import { ChevronDown, Menu, X } from 'lucide-react'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { Footer } from '@/sections/Footer'
 import { company, navGroups } from '@/data/site'
+import markUrl from '../../nexora-brand-kit/logos/nexora-appicon.svg'
 
 const topLinks = [
   { label: 'Industries', href: '/industries/manufacturing' },
@@ -44,7 +45,12 @@ export function SiteLayout() {
           <div className="flex items-center justify-between gap-4">
             <Link to="/" className="flex items-center gap-3">
               <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-2xl accent-gradient text-sm font-display font-bold text-white shadow-md shadow-iris/25">
-                N
+                <img
+                  src={markUrl}
+                  alt=""
+                  aria-hidden="true"
+                  // className="h-7 w-7 object-contain"
+                />
               </span>
               <span className="font-display text-lg tracking-tight text-ink">{company.name}</span>
             </Link>

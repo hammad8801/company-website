@@ -35,7 +35,7 @@ export function Navbar() {
       >
         <a href="#top" className="flex items-center gap-2.5 group">
           <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg accent-gradient text-white font-display font-bold">
-            N
+            Nas
             <span className="absolute -inset-1 rounded-xl border border-iris/30 group-hover:rotate-45 transition-transform duration-500" />
           </span>
           <span className="font-display font-medium tracking-tight text-ink">
