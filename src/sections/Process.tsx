@@ -1,128 +1,167 @@
-import { motion, useScroll, useTransform } from 'motion/react'
-import { useRef } from 'react'
+import { motion } from 'motion/react'
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 
 const steps = [
   {
-    n: '01',
-    t: 'Requirement Analysis',
-    d: 'We understand your business, map key challenges, and identify where automation creates the most leverage.',
+    num: '01',
+    name: 'Understand',
+    tagline: 'Start with the business, not the software.',
+    description: 'We learn how your people, processes, systems, and challenges actually work.',
+    nodes: ['BUSINESS', 'PEOPLE', 'PROCESS', 'PROBLEM'],
+    connectChar: '↓',
   },
   {
-    n: '02',
-    t: 'Solution Design',
-    d: 'We design a tailored system aligned with your workflow — architecture, modules, integrations, and data models.',
+    num: '02',
+    name: 'Design',
+    tagline: 'Turn the problem into a practical solution.',
+    description: 'We shape the workflows, experience, architecture, and technology around what the business actually needs.',
+    nodes: ['REQUIREMENTS', 'WORKFLOW', 'ARCHITECTURE'],
+    connectChar: '↓',
   },
   {
-    n: '03',
-    t: 'Development & Customization',
-    d: 'We build and customize the system in focused sprints, with working software from week one.',
+    num: '03',
+    name: 'Build',
+    tagline: 'Create what the solution actually needs.',
+    description: 'Configure, develop, automate, and connect — without building complexity that doesn\'t need to exist.',
+    nodes: ['CONFIGURE', 'DEVELOP', 'AUTOMATE', 'CONNECT'],
+    connectChar: '+',
   },
   {
-    n: '04',
-    t: 'Testing & Deployment',
-    d: 'We stress-test, migrate data, and launch — everything works before anyone signs in for the first time.',
+    num: '04',
+    name: 'Validate',
+    tagline: 'Prove it before it goes live.',
+    description: 'We test real workflows, refine the solution, and make sure it works for the people who will use it.',
+    nodes: ['TEST', 'REVIEW', 'REFINE', 'APPROVE'],
+    connectChar: '↓',
   },
   {
-    n: '05',
-    t: 'Training & Support',
-    d: 'We onboard your team and provide ongoing support so the system keeps delivering value long after launch.',
+    num: '05',
+    name: 'Launch & Evolve',
+    tagline: 'Go live. Keep improving.',
+    description: 'We deploy the system, support adoption, and continue improving it as your business changes.',
+    nodes: ['DEPLOY', 'ADOPT', 'SUPPORT', 'IMPROVE'],
+    connectChar: '↓',
   },
 ]
 
 export function Process() {
-  const container = useRef<HTMLDivElement>(null)
-  const track = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ['start start', 'end end'],
-  })
-
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-72%'])
-
   return (
-    <section
-      id="process"
-      ref={container}
-      className="relative border-t border-ink/5"
-      style={{ height: `${steps.length * 75}vh` }}
-    >
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
-        <div className="px-6 md:px-10 pt-24 md:pt-32">
-          <div className="mx-auto max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-iris"
-            >
-              <span className="h-px w-6 bg-iris" />
-              Our process
-            </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="mt-5 text-4xl md:text-6xl leading-[1.05] tracking-tight text-ink text-balance max-w-3xl"
-            >
-              From first call to live deployment, in{' '}
-              <span className="italic font-light accent-text">five steps</span>.
-            </motion.h2>
-          </div>
+    <section id="process" className="relative py-28 md:py-36 px-6 md:px-10 border-t border-ink/5 bg-paper/60">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <div className="flex flex-col items-start max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-iris"
+          >
+            <span className="h-px w-6 bg-iris" />
+            HOW WE WORK
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="mt-4 font-display text-4xl md:text-6xl tracking-tight text-ink text-balance"
+          >
+            From Business Challenge to Working System.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-4 text-lg md:text-xl text-muted leading-relaxed"
+          >
+            We start with how your business works, then design, build, validate, and evolve the right solution.
+          </motion.p>
         </div>
 
-        <div className="flex-1 flex items-center overflow-hidden mt-10">
-          <motion.div
-            ref={track}
-            style={{ x }}
-            className="flex gap-6 md:gap-8 pl-6 md:pl-10 pr-[20vw]"
-          >
-            {steps.map((s, i) => (
-              <div
-                key={s.n}
-                className="relative shrink-0 w-[85vw] sm:w-[60vw] md:w-[44vw] lg:w-[38vw] h-[58vh] rounded-3xl border border-ink/10 bg-white p-8 md:p-10 overflow-hidden shadow-lg shadow-iris/5"
+        {/* Timeline Desktop Grid (5 Columns) / Mobile Stack */}
+        <div className="mt-16 relative">
+          {/* Connecting Line (Desktop) */}
+          <div className="hidden lg:block absolute top-[28px] left-[5%] right-[5%] h-px bg-ink/10 z-0" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative z-10">
+            {steps.map((step, idx) => (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 * idx }}
+                className="group relative flex flex-col justify-between rounded-3xl border border-ink/10 bg-white p-6 md:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-iris/30 hover:-translate-y-1 overflow-hidden"
               >
-                <div className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full bg-iris/15 blur-3xl" />
-                <div className="absolute -top-20 -left-20 h-48 w-48 rounded-full bg-rose/10 blur-3xl" />
-
-                <div className="relative flex h-full flex-col">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-sm text-iris">
-                      / {s.n}
+                {/* Subtle top indicator dot */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-mist font-mono text-sm font-bold text-iris group-hover:bg-iris group-hover:text-white transition-colors duration-300">
+                      {step.num}
                     </span>
-                    <span className="text-xs uppercase tracking-[0.25em] text-muted">
-                      Step {i + 1} of {steps.length}
-                    </span>
-                  </div>
-
-                  <div className="mt-auto">
-                    <h3 className="font-display text-3xl md:text-5xl leading-[1.05] text-ink">
-                      {s.t}
-                    </h3>
-                    <p className="mt-6 text-muted leading-relaxed md:text-lg max-w-md">
-                      {s.d}
-                    </p>
+                    <span className="font-display text-lg font-bold text-ink">{step.name}</span>
                   </div>
                 </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
 
-        <div className="px-6 md:px-10 pb-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="h-px w-full bg-ink/10 relative overflow-hidden">
-              <motion.div
-                style={{
-                  scaleX: scrollYProgress,
-                  transformOrigin: 'left',
-                }}
-                className="absolute inset-0 accent-gradient"
-              />
-            </div>
+                {/* Subtitle & Description */}
+                <div>
+                  <h3 className="font-display text-base font-bold text-ink leading-snug">
+                    {step.tagline}
+                  </h3>
+                  <p className="mt-3 text-xs md:text-sm text-muted leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+
+                {/* Visual Node Diagram */}
+                <div className="mt-8 pt-4 border-t border-ink/5 bg-mist/50 -mx-6 -mb-6 p-4">
+                  <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[10px] tracking-wider text-iris font-semibold">
+                    {step.nodes.map((node, nIdx) => (
+                      <span key={node} className="flex items-center gap-1.5">
+                        <span className="px-1.5 py-0.5 rounded bg-white border border-ink/10 text-ink shadow-2xs">
+                          {node}
+                        </span>
+                        {nIdx < step.nodes.length - 1 && (
+                          <span className="text-iris/70 font-bold">{step.connectChar}</span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
+
+        {/* Homepage Bottom Footer */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-16 rounded-3xl border border-ink/10 bg-white p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm"
+        >
+          <div>
+            <h3 className="font-display text-2xl font-bold text-ink">
+              One approach. Different paths.
+            </h3>
+            <p className="mt-2 text-sm text-muted">
+              Every project follows the same principles, but each service has its own way of getting there.
+            </p>
+          </div>
+
+          <Link
+            to="/process"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-display text-sm font-semibold text-white transition-all hover:bg-iris hover:shadow-lg shrink-0"
+          >
+            Explore Our Process
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   )

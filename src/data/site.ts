@@ -71,7 +71,7 @@ export type CaseStudyItem = {
 export const company = {
   name: 'NexoraSolution',
   email: 'info.nexorasolution@gmail.com',
-  phone: '+91 78620 40233',
+  phone: '+91 8799010330',
   location: 'India · serving clients worldwide',
 }
 
@@ -434,14 +434,6 @@ export const industries: IndustryItem[] = [
       "Healthcare operations carry compliance weight that generic software ignores. We build appointment scheduling, compliance-sensitive record keeping, and audit-ready reporting where every entry is traceable, because in this industry, roughly right is not an option.",
   },
   {
-    slug: 'education',
-    icon: GraduationCap,
-    title: 'Education',
-    headline: 'ERPNext & Automation for Education',
-    description:
-      'Admissions in one spreadsheet, fees in another, payroll in a third. We unify admissions, fee management, and payroll, with web portals that give staff, students, and parents self-service access to what is actually current.',
-  },
-  {
     slug: 'logistics-supply-chain',
     icon: Warehouse,
     title: 'Logistics & Supply Chain',
@@ -449,15 +441,8 @@ export const industries: IndustryItem[] = [
     description:
       'In logistics, the margin lives in visibility: where stock is, which vehicle it is on, and what each client owes for the movement. We give 3PLs and distributors real-time warehouse, freight, and route-sales visibility tied straight into billing.',
   },
-  {
-    slug: 'startups-smes',
-    icon: ShieldCheck,
-    title: 'Startups & SMEs',
-    headline: 'ERPNext & Automation for Startups & SMEs',
-    description:
-      'You need enterprise-grade systems without enterprise-grade overhead or timelines. Our fixed-scope ERPNext Starter Package puts core Accounts, Sales, and Inventory live in weeks, with a clear 5-step process and room to grow into custom modules later.',
-  },
 ]
+
 
 export const caseStudies: CaseStudyItem[] = [
   {
@@ -550,33 +535,39 @@ export const aboutTeam = [
 export const processSteps = [
   {
     number: '01',
-    title: 'Requirement Analysis',
+    title: 'Understand: Process Mapping',
     description:
-      'We map how your business actually runs, including exceptions and leadership reporting needs, before recommending a single module. You get a written scope, not a guess.',
+      'We map how your business actually runs, shadowing the floor and tracing the paper. You get a documented map of your real processes, not a generic template.',
   },
   {
     number: '02',
-    title: 'Solution Design',
+    title: 'Design: The Blueprint',
     description:
-      'Module selection, customization plan, data model, and integration architecture, with a fixed timeline and named milestones. This is where built around you gets decided.',
+      'Module selection, customization plan, data model, and integration architecture. We define what stays core, what gets configured, and what needs custom code.',
   },
   {
     number: '03',
-    title: 'Build & Configure',
+    title: 'Configure: The Core Engine',
     description:
-      'Configuration and custom development in staged sprints you can review. You see working software every cycle, not a reveal at the end.',
+      'We set up the standard ERPNext modules—Chart of Accounts, Item Masters, Tax Templates—configuring the system to match the agreed blueprint.',
   },
   {
     number: '04',
-    title: 'Data Migration & Testing',
+    title: 'Build & Connect: Customizations',
     description:
-      'Staged migration with reconciliation reports and a parallel-run period. We cut over only when the numbers match and your history arrives intact.',
+      'We write the custom Frappe apps, mobile tools, and API integrations needed to handle the workflows that make your business unique.',
   },
   {
     number: '05',
-    title: 'Training, Go-Live & Support',
+    title: 'Migrate, Validate & Train',
     description:
-      'Role-based training, a supported go-live window, and ongoing support with real response times so your team owns the system confidently.',
+      'Staged data migration with reconciliation reports and parallel runs. We train your team role-by-role and cut over only when the numbers match.',
+  },
+  {
+    number: '06',
+    title: 'Go Live & Evolve',
+    description:
+      'A supported go-live window with immediate on-call support. Once stable, we look for the next set of manual tasks to automate.',
   },
 ]
 
@@ -599,8 +590,11 @@ export const homeTestimonials = [
 ]
 
 export const navGroups = {
-  services: services.map(({ title, slug }) => ({ label: title, href: `/services/${slug}` })),
+  services: services
+    .filter((s) => s.slug !== 'erpnext-implementation')
+    .map(({ title, slug }) => ({ label: title, href: `/services/${slug}` })),
   products: products.map(({ title, slug }) => ({ label: title, href: `/products/${slug}` })),
+  industries: industries.map(({ title, slug }) => ({ label: title, href: `/industries/${slug}` })),
 }
 
 export function getService(slug: string) {

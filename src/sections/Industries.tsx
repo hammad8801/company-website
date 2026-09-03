@@ -1,13 +1,8 @@
 import { motion } from 'motion/react'
+import { industries as siteIndustries } from '@/data/site'
 
-const industries = [
-  'Manufacturing',
-  'Retail & E-commerce',
-  'Healthcare',
-  'Education',
-  'Logistics & Supply Chain',
-  'Startups & SMEs',
-]
+const industries = siteIndustries.map((item) => item.title)
+
 
 export function Industries() {
   const row = [...industries, ...industries, ...industries]

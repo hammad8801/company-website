@@ -15,7 +15,7 @@ export function IndustryDetailPage() {
 
   return (
     <main className="pb-24">
-      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Industries', href: '/industries/manufacturing' }, { label: industry.title }]} />
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Industries', href: '/industries' }, { label: industry.title }]} />
       <PageHero badge="Industry" title={industry.headline} description={industry.description} />
 
       <section className="px-6 md:px-10 py-8">

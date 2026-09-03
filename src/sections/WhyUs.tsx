@@ -3,28 +3,28 @@ import { SectionHeader } from '@/components/SectionHeader'
 
 const reasons = [
   {
-    t: 'ERPNext & Frappe expertise',
-    d: 'Deep specialization in the Frappe ecosystem — not a generalist shop that also does ERP.',
+    t: 'Business-first thinking',
+    d: "We start with how your business actually works — then decide what should be configured, built, automated, or integrated. Software comes second.",
   },
   {
-    t: 'Complete solutions',
-    d: 'ERP, mobile, and web from one team — fewer handoffs, one source of accountability.',
+    t: 'One team, end to end',
+    d: 'ERPNext, Frappe, web, mobile, and custom software — connected by one team from idea to production. Fewer handoffs, one source of accountability.',
   },
   {
-    t: 'Built for your workflow',
-    d: 'Every module, screen, and automation is shaped around how your business actually runs.',
+    t: 'Built around your workflow',
+    d: 'Every system, screen, workflow, and automation is shaped around the way your team actually operates — not around what the platform does by default.',
   },
   {
-    t: 'Scalable architecture',
-    d: 'Systems designed to grow — from first users to the scale you haven’t hit yet.',
+    t: 'Configure before we customize',
+    d: 'We use what the platform already does well before adding custom code — keeping solutions simpler, cleaner, and easier to maintain over time.',
   },
   {
-    t: 'Transparent communication',
-    d: 'Clear scopes, honest timelines, async updates you can actually read.',
+    t: 'Automation & integration mindset',
+    d: 'We connect systems and remove repetitive manual work so information moves where it needs to — automatically and accurately.',
   },
   {
-    t: 'Automation first',
-    d: 'If it can be automated, we automate it — so your team gets time back.',
+    t: 'Built to evolve',
+    d: 'We design systems that can grow with your business — with maintainable architecture, clear documentation, and long-term support.',
   },
 ]
 

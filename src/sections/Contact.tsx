@@ -1,7 +1,8 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { Mail, MapPin, Send } from 'lucide-react'
 import { company } from '@/data/site'
+import { WhatsAppIcon } from '@/components/WhatsAppButton'
 
 export function Contact() {
   const [sent, setSent] = useState(false)
@@ -56,10 +57,11 @@ export function Contact() {
               href={`mailto:${company.email}`}
             />
             <ContactLine
-              icon={Phone}
+              icon={WhatsAppIcon}
               label="Phone / WhatsApp"
               value={company.phone}
-              href={`tel:${company.phone.replace(/[^\d+]/g, '')}`}
+              href={`https://wa.me/${company.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent("Hello Nexora, I'd like to discuss a project.")}`}
+              isExternal
             />
             <ContactLine icon={MapPin} label="Location" value={company.location} />
           </div>
@@ -124,11 +126,13 @@ function ContactLine({
   label,
   value,
   href,
+  isExternal = false,
 }: {
   icon: React.ComponentType<{ className?: string }>
   label: string
   value: string
   href?: string
+  isExternal?: boolean
 }) {
   const Body = (
     <div className="flex items-center gap-4 py-4 border-b border-ink/10 group">
@@ -145,7 +149,12 @@ function ContactLine({
   )
   if (href) {
     return (
-      <a href={href} className="block">
+      <a
+        href={href}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+        className="block"
+      >
         {Body}
       </a>
     )
