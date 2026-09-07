@@ -269,7 +269,7 @@ function SubmissionDialog({
           {success ? <CheckCircle2 className="h-7 w-7" /> : <XCircle className="h-7 w-7" />}
         </span>
         <h3 id="submission-dialog-title" className="mt-5 font-display text-3xl text-ink">
-          {success ? 'Enquiry received' : 'Message not sent'}
+          {success ? 'Enquiry submitted' : 'Message not sent'}
         </h3>
         <p className="mt-4 leading-relaxed text-muted">{message}</p>
         <button
