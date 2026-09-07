@@ -1,3 +1,4 @@
+import { ContactLink } from '@/components/ContactLink'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import {
@@ -121,6 +122,8 @@ const moduleGroups = [
 ]
 
 // ── Decision tree steps ─────────────────────────────────────────────────────
+// Retained content data for the currently disabled decision-tree section.
+// eslint-disable-next-line react-refresh/only-export-components
 export const decisions = [
   { q: 'Can ERPNext already do this?', yes: 'Configure it' },
   { q: 'Can the process be improved?', yes: 'Redesign the workflow' },
@@ -161,10 +164,10 @@ export function ERPNextImplementationPage() {
               build ERPNext around your operations, not the other way around.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-4">
-              <Link to="/contact"
+              <ContactLink
                 className="inline-flex items-center gap-2 rounded-full accent-gradient px-6 py-3.5 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl hover:shadow-iris/35 transition-all">
                 Start Your ERPNext Journey <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <Link to="/work"
                 className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-3.5 text-sm font-medium text-ink hover:bg-mist transition-all">
                 View Case Studies <ChevronRight className="h-4 w-4" />
@@ -457,12 +460,11 @@ export function ERPNextImplementationPage() {
               We start with understanding your operations—not which modules you want. Book a free assessment and we'll tell you exactly what an implementation would look like for your business.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link
-                to="/contact"
+              <ContactLink
                 className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-iris shadow-lg hover:shadow-xl transition-all"
               >
                 Book a Free ERP Assessment <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <Link
                 to="/work"
                 className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-4 text-sm font-medium text-white hover:bg-white/20 transition-all"

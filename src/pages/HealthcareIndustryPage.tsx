@@ -1,3 +1,4 @@
+import { ContactLink } from '@/components/ContactLink'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
@@ -305,9 +306,9 @@ export function HealthcareIndustryPage() {
             </motion.div>
 
             <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full accent-gradient px-7 py-4 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl transition-all">
+              <ContactLink className="inline-flex items-center gap-2 rounded-full accent-gradient px-7 py-4 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl transition-all">
                 Discuss Your Healthcare Workflow <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <a href="#capabilities" className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-7 py-4 text-sm font-medium text-ink hover:bg-mist transition-all">
                 Explore Capabilities <ChevronRight className="h-4 w-4" />
               </a>
@@ -511,10 +512,10 @@ export function HealthcareIndustryPage() {
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-ink/10">
-                  <Link to="/contact" className="inline-flex items-center gap-2 text-xs font-bold text-iris hover:underline">
+                  <ContactLink className="inline-flex items-center gap-2 text-xs font-bold text-iris hover:underline">
                     <span>Discuss This Healthcare Capability</span>
                     <ArrowUpRight className="h-3.5 w-3.5" />
-                  </Link>
+                  </ContactLink>
                 </div>
               </div>
             </div>
@@ -801,10 +802,10 @@ export function HealthcareIndustryPage() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white text-ink font-bold px-8 py-4 text-sm shadow-lg hover:bg-mist transition-all">
+              <ContactLink className="inline-flex items-center gap-2 rounded-full bg-white text-ink font-bold px-8 py-4 text-sm shadow-lg hover:bg-mist transition-all">
                 <span>Talk to Us About Your Healthcare Workflow</span>
                 <ArrowRight className="h-4 w-4 text-iris" />
-              </Link>
+              </ContactLink>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { ContactLink } from '@/components/ContactLink'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import { ArrowRight, ChevronRight, ArrowDown, CheckCircle2, X, MapPin, Link2, RefreshCw, Zap, ShieldCheck, Activity } from 'lucide-react'
@@ -107,9 +108,9 @@ export function ERPNextIntegrationPage() {
               <span className="text-sm text-muted">Systems should move the data.</span>
             </motion.div>
             <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full accent-gradient px-6 py-3.5 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl hover:shadow-iris/35 transition-all">
+              <ContactLink className="inline-flex items-center gap-2 rounded-full accent-gradient px-6 py-3.5 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl hover:shadow-iris/35 transition-all">
                 Discuss an Integration <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <Link to="/services/erpnext-customization" className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-3.5 text-sm font-medium text-ink hover:bg-mist transition-all">
                 Also See: Customization <ChevronRight className="h-4 w-4" />
               </Link>
@@ -380,9 +381,9 @@ export function ERPNextIntegrationPage() {
               integration should work — and what it will take to build it reliably.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-iris shadow-lg hover:shadow-xl transition-all">
+              <ContactLink className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-iris shadow-lg hover:shadow-xl transition-all">
                 Discuss an Integration <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <Link to="/services/erpnext-consulting" className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-4 text-sm font-medium text-white hover:bg-white/20 transition-all">
                 Start With Consultancy <ChevronRight className="h-4 w-4" />
               </Link>

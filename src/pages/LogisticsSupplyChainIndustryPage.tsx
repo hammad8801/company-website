@@ -1,3 +1,4 @@
+import { ContactLink } from '@/components/ContactLink'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
@@ -244,7 +245,7 @@ const subIndustries = [
 ]
 
 export function LogisticsSupplyChainIndustryPage() {
-  const [activeTab, setActiveTab] = useState<'warehouse' | 'driver' | 'supervisor' | 'field-sales'>('driver')
+  const [activeTab, setActiveTab] = useState<(typeof mobileRoles)[number]['id']>('driver')
   const [selectedCapability, setSelectedCapability] = useState('procurement')
 
   const currentRole = mobileRoles.find((r) => r.id === activeTab)!
@@ -304,21 +305,19 @@ export function LogisticsSupplyChainIndustryPage() {
 
             {/* Action Buttons */}
             <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                to="/contact"
+              <ContactLink
                 className="inline-flex items-center gap-2 rounded-full accent-gradient px-8 py-4 text-sm font-medium text-white shadow-lg shadow-iris/25 transition-all hover:shadow-xl hover:scale-[1.01]"
               >
                 <span>Build My Logistics System</span>
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
 
-              <Link
-                to="/contact"
+              <ContactLink
                 className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-7 py-4 text-sm font-medium text-ink shadow-sm hover:bg-mist transition-all"
               >
                 <span>Talk to Nexora</span>
                 <ArrowUpRight className="h-4 w-4 text-muted" />
-              </Link>
+              </ContactLink>
             </motion.div>
 
             {/* Cross Navigation Links */}
@@ -646,7 +645,7 @@ export function LogisticsSupplyChainIndustryPage() {
               return (
                 <button
                   key={role.id}
-                  onClick={() => setActiveTab(role.id as any)}
+                  onClick={() => setActiveTab(role.id)}
                   className={`inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition-all border ${
                     isActive
                       ? 'border-iris bg-iris text-white shadow-md shadow-iris/25'
@@ -917,21 +916,19 @@ export function LogisticsSupplyChainIndustryPage() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/contact"
+            <ContactLink
               className="inline-flex items-center justify-center gap-2 rounded-full accent-gradient px-8 py-4 text-base font-semibold text-white shadow-lg shadow-iris/25 transition-all hover:scale-[1.02] hover:shadow-iris/40"
             >
               <span>Build Your Connected Supply Chain</span>
               <ArrowRight className="h-5 w-5" />
-            </Link>
+            </ContactLink>
 
-            <Link
-              to="/contact"
+            <ContactLink
               className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-7 py-4 text-base font-semibold text-ink shadow-sm hover:bg-mist transition-all"
             >
               <span>Speak with a Logistics Tech Specialist</span>
               <ArrowUpRight className="h-5 w-5 text-muted" />
-            </Link>
+            </ContactLink>
           </div>
         </div>
       </section>

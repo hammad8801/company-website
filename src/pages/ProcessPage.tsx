@@ -1,3 +1,4 @@
+import { ContactLink } from '@/components/ContactLink'
 import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
@@ -535,12 +536,11 @@ export function ProcessPage() {
             Tell us how your business works. We'll help you figure out what the right solution looks like.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/contact"
+            <ContactLink
               className="inline-flex rounded-full bg-white px-8 py-4 font-display font-semibold text-ink hover:bg-mist transition-colors shadow-lg"
             >
               Start a Conversation →
-            </Link>
+            </ContactLink>
             <Link
               to="/services"
               className="inline-flex rounded-full bg-white/10 backdrop-blur-xs border border-white/20 px-8 py-4 font-display font-semibold text-white hover:bg-white/20 transition-colors"

@@ -107,6 +107,7 @@ async function sendTemplate(args: {
     `https://graph.facebook.com/${args.graphApiVersion}/${args.phoneNumberId}/messages`,
     {
       method: 'POST',
+      signal: AbortSignal.timeout(15_000),
       headers: {
         Authorization: `Bearer ${args.accessToken}`,
         'Content-Type': 'application/json',
@@ -132,11 +133,17 @@ async function sendTemplate(args: {
 
   const responseBody = await response.json().catch(() => ({}))
   if (!response.ok) {
-    console.error('WhatsApp Cloud API request failed', response.status, responseBody)
+    console.error('WhatsApp Cloud API request failed', {
+      status: response.status,
+      code: responseBody.error?.code,
+      subcode: responseBody.error?.error_subcode,
+      traceId: responseBody.error?.fbtrace_id,
+    })
     throw new Error(`WhatsApp API returned ${response.status}`)
   }
 
-  return responseBody as { messages?: Array<{ id?: string }> }
+  if (!responseBody.messages?.[0]?.id) throw new Error('WhatsApp API did not accept a message')
+  return responseBody as { messages: Array<{ id: string }> }
 }
 
 export default async function handler(request: ApiRequest, response: ApiResponse) {

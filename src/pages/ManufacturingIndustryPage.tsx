@@ -1,3 +1,4 @@
+import { ContactLink } from '@/components/ContactLink'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import {
@@ -151,9 +152,9 @@ export function ManufacturingIndustryPage() {
               <span className="text-sm font-medium text-ink">Build custom layer</span>
             </motion.div>
             <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full accent-gradient px-6 py-3.5 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl transition-all">
+              <ContactLink className="inline-flex items-center gap-2 rounded-full accent-gradient px-6 py-3.5 text-sm font-medium text-white shadow-lg shadow-iris/25 hover:shadow-xl transition-all">
                 Discuss Your Manufacturing Process <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <Link to="/work/steel-fabrication" className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-3.5 text-sm font-medium text-ink hover:bg-mist transition-all">
                 Steel Fabrication Case Study (9-Day to 2-Day Close) <ChevronRight className="h-4 w-4" />
               </Link>
@@ -531,9 +532,9 @@ export function ManufacturingIndustryPage() {
               Nexora helps manufacturers replace disconnected spreadsheets with a connected business system built around how their factory actually works.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-iris shadow-lg hover:shadow-xl transition-all">
+              <ContactLink className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-iris shadow-lg hover:shadow-xl transition-all">
                 Discuss Your Manufacturing Process <ArrowRight className="h-4 w-4" />
-              </Link>
+              </ContactLink>
               <Link to="/services/automation-custom-software" className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-4 text-sm font-medium text-white hover:bg-white/20 transition-all">
                 See Custom Software & Automation <ChevronRight className="h-4 w-4" />
               </Link>

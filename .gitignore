@@ -3,3 +3,4 @@ nexora-demo
 dist
 .env*
 !.env.example
+.vercel
