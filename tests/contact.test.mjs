@@ -16,6 +16,7 @@ test('contact delivery contract', async (t) => {
     WHATSAPP_ACCESS_TOKEN: 'test-only-not-a-real-token', WHATSAPP_PHONE_NUMBER_ID: 'test-sender',
     META_GRAPH_API_VERSION: 'v25.0', WHATSAPP_LEAD_RECIPIENT: '918799010330',
     WHATSAPP_LEAD_TEMPLATE_NAME: 'new_website_lead', WHATSAPP_TEMPLATE_LANGUAGE: 'en_US',
+    WHATSAPP_DELIVERY_MODE: 'template',
   })
   t.after(() => { globalThis.fetch = previousFetch; process.env = originalEnv })
   let calls = []
@@ -52,6 +53,21 @@ test('contact delivery contract', async (t) => {
       assert.equal((await invoke(body)).status, 400)
       assert.equal(calls.length, 0)
     }
+  })
+  await t.test('explicit temporary text mode includes the same source and contact details', async () => {
+    process.env.WHATSAPP_DELIVERY_MODE = 'text'
+    assert.equal((await invoke()).status, 200)
+    assert.equal(calls.length, 1)
+    assert.equal(calls[0].body.to, '918799010330')
+    assert.equal(calls[0].body.type, 'text')
+    assert.equal(calls[0].body.template, undefined)
+    assert.ok(calls[0].body.text.body.includes(payload.source.path))
+    assert.ok(calls[0].body.text.body.includes(payload.email))
+    assert.ok(calls[0].body.text.body.includes(payload.message))
+    process.env.WHATSAPP_DELIVERY_MODE = 'invalid'
+    assert.equal((await invoke()).status, 503)
+    assert.equal(calls.length, 0)
+    process.env.WHATSAPP_DELIVERY_MODE = 'template'
   })
   await t.test('GET is rejected and missing configuration fails closed', async () => {
     assert.equal((await invoke(payload, 'GET')).status, 405)

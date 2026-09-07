@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import process from 'node:process'
 
 type ApiRequest = {
@@ -96,7 +97,8 @@ function textParameters(values: string[]): TemplateParameter[] {
   return values.map((value) => ({ type: 'text', text: value || 'Not provided' }))
 }
 
-async function sendTemplate(args: {
+async function sendLeadMessage(args: {
+  deliveryMode: 'template' | 'text'
   to: string
   templateName: string
   parameters: string[]
@@ -118,17 +120,28 @@ async function sendTemplate(args: {
         messaging_product: 'whatsapp',
         recipient_type: 'individual',
         to: args.to,
-        type: 'template',
-        template: {
-          name: args.templateName,
-          language: { code: args.language },
-          components: [
-            {
-              type: 'body',
-              parameters: textParameters(args.parameters),
-            },
-          ],
-        },
+        ...(args.deliveryMode === 'text' ? {
+          type: 'text',
+          text: {
+            preview_url: false,
+            body: ['New website enquiry — Nexora Solution', ...[
+              'Customer name', 'Customer email', 'Company', 'Contact number',
+              'Requirement', 'Source details', 'Source page URL', 'Contact button',
+            ].map((label, index) => `${label}: ${args.parameters[index] || 'Not provided'}`)].join('\n'),
+          },
+        } : {
+          type: 'template',
+          template: {
+            name: args.templateName,
+            language: { code: args.language },
+            components: [
+              {
+                type: 'body',
+                parameters: textParameters(args.parameters),
+              },
+            ],
+          },
+        }),
       }),
     },
   )
@@ -169,13 +182,17 @@ export default async function handler(request: ApiRequest, response: ApiResponse
   const leadRecipient = normalizePhone(process.env.WHATSAPP_LEAD_RECIPIENT)
   const leadTemplate = process.env.WHATSAPP_LEAD_TEMPLATE_NAME
   const language = process.env.WHATSAPP_TEMPLATE_LANGUAGE || 'en_US'
+  // Explicit temporary test mode only: recipient must have messaged the sender
+  // within the last 24 hours. There is no automatic template-to-text fallback.
+  const deliveryMode = process.env.WHATSAPP_DELIVERY_MODE || 'template'
 
   if (
     !accessToken ||
     !phoneNumberId ||
     !graphApiVersion ||
     !leadRecipient ||
-    !leadTemplate
+    (deliveryMode !== 'template' && deliveryMode !== 'text') ||
+    (deliveryMode === 'template' && !leadTemplate)
   ) {
     response.status(503).json({ error: 'WhatsApp service is not configured yet.' })
     return
@@ -188,9 +205,10 @@ export default async function handler(request: ApiRequest, response: ApiResponse
   ].filter(Boolean).join(' - ')
 
   try {
-    const leadResult = await sendTemplate({
+    const leadResult = await sendLeadMessage({
+      deliveryMode,
       to: leadRecipient,
-      templateName: leadTemplate,
+      templateName: leadTemplate || '',
       parameters: [
         payload.name,
         payload.email,

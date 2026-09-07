@@ -18,6 +18,15 @@ the team's number separately (the previously verified number was `+91 78620 4023
 Real form delivery requires the approved lead template and a valid server-side token.
 A sample Meta test message only checks connectivity, not the full form flow.
 
+Temporary testing while the lead template is in review: set
+`WHATSAPP_DELIVERY_MODE=text` and have the team's verified receiver send a WhatsApp
+message to the test sender first. Free-form delivery requires that receiver's
+24-hour service window to remain open. Website visitors do not open this window
+by submitting the web form. This is not an unattended production configuration.
+Set the mode back to `template` after approval and redeploy. Temporary Meta tokens
+also expire; replace with an appropriate server-side production token before a
+permanent launch. Never treat an accepted message ID as proof of delivery.
+
 Create and approve this template in WhatsApp Manager with the exact variable
 order below (names can be changed through environment variables):
 
