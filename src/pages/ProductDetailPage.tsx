@@ -1,5 +1,6 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { ContactLink } from '@/components/ContactLink'
 import { PageHero } from '@/components/PageHero'
 import { getProduct } from '@/data/site'
 
@@ -21,9 +22,12 @@ export function ProductDetailPage() {
         title={product.title}
         description={product.description}
         actions={
-          <Link to="/contact" className="inline-flex rounded-full accent-gradient px-6 py-3 font-medium text-white">
+          <ContactLink
+            source={{ type: 'Product', title: product.title, slug: product.slug, cta: 'Discuss this module' }}
+            className="inline-flex rounded-full accent-gradient px-6 py-3 font-medium text-white"
+          >
             Discuss this module
-          </Link>
+          </ContactLink>
         }
       />
 
@@ -49,13 +53,15 @@ export function ProductDetailPage() {
             <p className="mt-4 text-muted leading-relaxed">
               This page now exists as a proper route in the current project, so the client can expand each product independently instead of keeping everything buried on the homepage.
             </p>
-            <Link to="/contact" className="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-medium text-ink">
+            <ContactLink
+              source={{ type: 'Product', title: product.title, slug: product.slug, cta: 'Talk to our team' }}
+              className="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-medium text-ink"
+            >
               Talk to our team
-            </Link>
+            </ContactLink>
           </aside>
         </div>
       </section>
     </main>
   )
 }
-

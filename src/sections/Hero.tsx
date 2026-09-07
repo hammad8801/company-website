@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { ContactLink } from '@/components/ContactLink'
 import { HeroScene } from '@/components/HeroScene'
 
 const fadeUp = {
@@ -83,13 +84,13 @@ export function Hero() {
               variants={fadeUp}
               className="mt-10 flex flex-wrap items-center gap-4"
             >
-              <Link
-                to="/contact"
+              <ContactLink
+                source={{ type: 'Homepage hero', cta: 'Get free consultation' }}
                 className="group relative inline-flex items-center gap-2 rounded-full accent-gradient text-white px-7 py-3.5 text-sm font-medium overflow-hidden shadow-lg shadow-iris/30 hover:shadow-xl hover:shadow-iris/40 transition-shadow"
               >
                 <span className="relative">Get free consultation</span>
                 <span className="relative transition-transform group-hover:translate-x-1">→</span>
-              </Link>
+              </ContactLink>
               <Link
                 to="/work"
                 className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white/60 backdrop-blur text-ink px-7 py-3.5 text-sm font-medium hover:bg-white hover:border-ink/25 transition-colors"

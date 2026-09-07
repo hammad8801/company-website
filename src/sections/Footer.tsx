@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
+import { ContactLink } from '@/components/ContactLink'
 import { company, industries, services } from '@/data/site'
 
 export function Footer() {
@@ -48,7 +49,11 @@ export function Footer() {
               <li><Link to="/process" className="text-ink/80 hover:text-iris transition-colors">How We Work</Link></li>
               <li><Link to="/resources" className="text-ink/80 hover:text-iris transition-colors">Resources</Link></li>
               <li><Link to="/about" className="text-ink/80 hover:text-iris transition-colors">About</Link></li>
-              <li><Link to="/contact" className="text-ink/80 hover:text-iris transition-colors">Contact</Link></li>
+              <li>
+                <ContactLink source={{ type: 'Footer', cta: 'Contact' }} className="text-ink/80 hover:text-iris transition-colors">
+                  Contact
+                </ContactLink>
+              </li>
               <li className="pt-3 text-xs uppercase tracking-[0.25em] text-iris">Industries</li>
               {industries.map((industry) => (
                 <li key={industry.slug}>

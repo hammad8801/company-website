@@ -1,5 +1,6 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { ContactLink } from '@/components/ContactLink'
 import { PageHero } from '@/components/PageHero'
 import { getRelatedProducts, getService } from '@/data/site'
 
@@ -22,9 +23,12 @@ export function ServiceDetailPage() {
         title={service.title}
         description={service.description}
         actions={
-          <Link to="/contact" className="inline-flex rounded-full accent-gradient px-6 py-3 font-medium text-white">
+          <ContactLink
+            source={{ type: 'Service', title: service.title, slug: service.slug, cta: service.cta }}
+            className="inline-flex rounded-full accent-gradient px-6 py-3 font-medium text-white"
+          >
             {service.cta}
-          </Link>
+          </ContactLink>
         }
       />
 
@@ -76,4 +80,3 @@ export function ServiceDetailPage() {
     </main>
   )
 }
-

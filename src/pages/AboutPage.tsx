@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { ContactLink } from '@/components/ContactLink'
 import { PageHero } from '@/components/PageHero'
 import { aboutPrinciples, aboutTeam } from '@/data/site'
 
@@ -55,9 +55,12 @@ export function AboutPage() {
           <p className="mt-4 max-w-2xl text-white/85">
             One conversation is enough to know whether we are the right fit. We will tell you honestly if we are not.
           </p>
-          <Link to="/contact" className="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-medium text-ink">
+          <ContactLink
+            source={{ type: 'About', cta: 'Get a Free ERP Readiness Assessment' }}
+            className="mt-8 inline-flex rounded-full bg-white px-6 py-3 font-medium text-ink"
+          >
             Get a Free ERP Readiness Assessment
-          </Link>
+          </ContactLink>
         </div>
       </section>
     </main>

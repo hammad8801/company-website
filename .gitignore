@@ -1,3 +1,5 @@
 node_modules
 nexora-demo
 dist
+.env*
+!.env.example

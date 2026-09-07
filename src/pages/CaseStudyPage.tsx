@@ -1,5 +1,6 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { ContactLink } from '@/components/ContactLink'
 import { PageHero } from '@/components/PageHero'
 import { getCaseStudy } from '@/data/site'
 
@@ -19,9 +20,12 @@ export function CaseStudyPage() {
         title={study.title}
         description={study.description}
         actions={
-          <Link to="/contact" className="inline-flex rounded-full accent-gradient px-6 py-3 font-medium text-white">
+          <ContactLink
+            source={{ type: 'Case study', title: study.title, slug: study.slug, cta: 'Discuss a similar project' }}
+            className="inline-flex rounded-full accent-gradient px-6 py-3 font-medium text-white"
+          >
             Discuss a similar project
-          </Link>
+          </ContactLink>
         }
       />
 
@@ -55,4 +59,3 @@ export function CaseStudyPage() {
     </main>
   )
 }
-

@@ -1,20 +1,100 @@
 import { motion } from 'motion/react'
+import { CheckCircle2, Mail, MapPin, MessageCircle, X, XCircle } from 'lucide-react'
 import { useState } from 'react'
-import { Mail, MapPin, Send } from 'lucide-react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { company } from '@/data/site'
 import { WhatsAppIcon } from '@/components/WhatsAppButton'
 
 export function Contact() {
-  const [sent, setSent] = useState(false)
-  const [sending, setSending] = useState(false)
+  const [submission, setSubmission] = useState<{
+    status: 'idle' | 'submitting' | 'success' | 'error'
+    message: string
+  }>({ status: 'idle', message: '' })
+  const location = useLocation()
+  const [searchParams] = useSearchParams()
+  const source = {
+    path: searchParams.get('sourcePath') || (location.pathname === '/' ? '/' : 'Direct visit'),
+    type: searchParams.get('sourceType') || (location.pathname === '/' ? 'Homepage' : 'Direct'),
+    title: searchParams.get('sourceTitle') || '',
+    slug: searchParams.get('sourceSlug') || '',
+    cta: searchParams.get('sourceCta') || '',
+  }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSending(true)
-    setTimeout(() => {
-      setSending(false)
-      setSent(true)
-    }, 800)
+    const formElement = e.currentTarget
+    const form = new FormData(formElement)
+    const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null
+    const channel = submitter?.value || 'whatsapp'
+    const name = String(form.get('name') || '').trim()
+    const email = String(form.get('email') || '').trim()
+    const clientCompany = String(form.get('company') || '').trim() || 'Not provided'
+    const whatsapp = String(form.get('whatsapp') || '').trim()
+    const message = String(form.get('message') || '').trim()
+    const consent = form.get('contactConsent') === 'on'
+
+    if (channel === 'whatsapp') {
+      setSubmission({ status: 'submitting', message: '' })
+      try {
+        const apiResponse = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            company: clientCompany,
+            whatsapp,
+            message,
+            consent,
+            source: {
+              ...source,
+              path: source.path.startsWith('/')
+                ? `${window.location.origin}${source.path}`
+                : source.path,
+            },
+          }),
+        })
+        const result = await apiResponse.json().catch(() => ({})) as { error?: string }
+        if (!apiResponse.ok) {
+          throw new Error(result.error || 'Unable to submit your enquiry.')
+        }
+        formElement.reset()
+        setSubmission({
+          status: 'success',
+          message: `Thanks, ${name}! Your enquiry has been submitted. Our team will contact you soon.`,
+        })
+      } catch (error) {
+        setSubmission({
+          status: 'error',
+          message: error instanceof Error
+            ? error.message
+            : 'Unable to submit your enquiry. Please try again.',
+        })
+      }
+      return
+    }
+
+    const sourceUrl = source.path.startsWith('/')
+      ? `${window.location.origin}${source.path}`
+      : source.path
+    const enquiry = [
+      'New website enquiry',
+      '',
+      `Name: ${name}`,
+      `Email: ${email}`,
+      `Company: ${clientCompany}`,
+      `WhatsApp: ${whatsapp}`,
+      `Requirement: ${message}`,
+      '',
+      'Lead metadata',
+      `Source type: ${source.type}`,
+      ...(source.title ? [`Source item: ${source.title}`] : []),
+      ...(source.slug ? [`Source slug: ${source.slug}`] : []),
+      `Source page: ${sourceUrl}`,
+      ...(source.cta ? [`CTA: ${source.cta}`] : []),
+    ].join('\n')
+    const subjectItem = source.title ? ` - ${source.title}` : ''
+    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(`Website enquiry${subjectItem}`)}&body=${encodeURIComponent(enquiry)}`
   }
 
   return (
@@ -92,6 +172,12 @@ export function Contact() {
               required={false}
             />
             <Field
+              label="Contact number"
+              type="tel"
+              name="whatsapp"
+              placeholder="+91 98765 43210"
+            />
+            <Field
               label="What do you want to build?"
               name="message"
               placeholder="A short description helps us route your project."
@@ -99,25 +185,102 @@ export function Contact() {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={sending || sent}
-            className="relative mt-8 group w-full inline-flex items-center justify-center gap-2 rounded-full accent-gradient text-white px-6 py-4 font-medium disabled:opacity-60 shadow-lg shadow-iris/30 hover:shadow-xl hover:shadow-iris/40 transition-shadow"
-          >
-            {sent ? (
-              'Thanks — we will be in touch'
-            ) : sending ? (
-              'Sending...'
-            ) : (
-              <>
-                Send message
-                <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </>
-            )}
-          </button>
+          <label className="relative mt-6 flex items-start gap-3 text-sm leading-relaxed text-muted">
+            <input
+              type="checkbox"
+              name="contactConsent"
+              required
+              className="mt-1 h-4 w-4 shrink-0 accent-[#25D366]"
+            />
+            <span>I agree that NexoraSolution may use my details to respond to this enquiry.</span>
+          </label>
+
+          <div className="relative mt-8 grid gap-3 sm:grid-cols-2">
+            <button
+              type="submit"
+              name="channel"
+              value="whatsapp"
+              disabled={submission.status === 'submitting'}
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-4 font-medium text-white shadow-lg shadow-[#25D366]/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#25D366]/30 disabled:cursor-wait disabled:opacity-60"
+            >
+              <MessageCircle className="h-4 w-4" />
+              {submission.status === 'submitting' ? 'Sending...' : 'Send via WhatsApp'}
+            </button>
+            <button
+              type="submit"
+              name="channel"
+              value="email"
+              className="group inline-flex items-center justify-center gap-2 rounded-full accent-gradient px-6 py-4 font-medium text-white shadow-lg shadow-iris/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-iris/40"
+            >
+              <Mail className="h-4 w-4" />
+              Send via Email
+            </button>
+          </div>
+          <p className="relative mt-4 text-center text-xs leading-relaxed text-muted">
+            WhatsApp submissions stay on this page. Email submissions open your email app with the enquiry details pre-filled.
+          </p>
         </motion.form>
       </div>
+      {submission.status === 'success' || submission.status === 'error' ? (
+        <SubmissionDialog
+          status={submission.status}
+          message={submission.message}
+          onClose={() => setSubmission({ status: 'idle', message: '' })}
+        />
+      ) : null}
     </section>
+  )
+}
+
+function SubmissionDialog({
+  status,
+  message,
+  onClose,
+}: {
+  status: 'success' | 'error'
+  message: string
+  onClose: () => void
+}) {
+  const success = status === 'success'
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/45 px-6 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="submission-dialog-title"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-md rounded-3xl border border-ink/10 bg-white p-8 text-center shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-mist hover:text-ink"
+          aria-label="Close dialog"
+        >
+          <X className="h-5 w-5" />
+        </button>
+        <span className={[
+          'mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full',
+          success ? 'bg-[#25D366]/12 text-[#168c42]' : 'bg-red-50 text-red-600',
+        ].join(' ')}>
+          {success ? <CheckCircle2 className="h-7 w-7" /> : <XCircle className="h-7 w-7" />}
+        </span>
+        <h3 id="submission-dialog-title" className="mt-5 font-display text-3xl text-ink">
+          {success ? 'Enquiry received' : 'Message not sent'}
+        </h3>
+        <p className="mt-4 leading-relaxed text-muted">{message}</p>
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-7 inline-flex rounded-full accent-gradient px-7 py-3 font-medium text-white"
+        >
+          {success ? 'Done' : 'Try again'}
+        </button>
+      </div>
+    </div>
   )
 }
 

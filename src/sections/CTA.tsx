@@ -1,8 +1,8 @@
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { ContactLink } from '@/components/ContactLink'
 
-const MotionLink = motion.create(Link)
+const MotionContactLink = motion.create(ContactLink)
 
 export function CTA() {
   const ref = useRef<HTMLDivElement>(null)
@@ -51,13 +51,13 @@ export function CTA() {
 
           <div className="flex flex-col gap-4">
             {[
-              { label: 'Get a free consultation', href: '/contact' },
-              { label: 'Discuss your project', href: '/contact' },
-              { label: 'Request a demo', href: '/contact' },
+              { label: 'Get a free consultation' },
+              { label: 'Discuss your project' },
+              { label: 'Request a demo' },
             ].map((item, i) => (
-              <MotionLink
+              <MotionContactLink
                 key={item.label}
-                to={item.href}
+                source={{ type: 'Homepage CTA', cta: item.label }}
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
@@ -70,7 +70,7 @@ export function CTA() {
                 <span className="h-10 w-10 rounded-full border border-iris/30 text-iris inline-flex items-center justify-center group-hover:accent-gradient group-hover:text-white group-hover:border-transparent group-hover:rotate-[-45deg] transition-all duration-500">
                   →
                 </span>
-              </MotionLink>
+              </MotionContactLink>
             ))}
           </div>
         </div>

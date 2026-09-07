@@ -3,6 +3,7 @@ import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
 import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
 import { BrandWordmark } from '@/components/BrandWordmark'
+import { ContactLink } from '@/components/ContactLink'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { Footer } from '@/sections/Footer'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
@@ -96,23 +97,33 @@ export function SiteLayout() {
                 onClose={() => setOpenMenu((current) => (current === 'industries' ? null : current))}
               />
               {topLinks.map((link) => (
-                <NavLink
-                  key={link.href}
-                  to={link.href}
-                  className="rounded-full px-4 py-2 text-ink/70 transition-colors hover:bg-mist hover:text-ink"
-                >
-                  {link.label}
-                </NavLink>
+                link.href === '/contact' ? (
+                  <ContactLink
+                    key={link.href}
+                    source={{ type: 'Navigation', cta: link.label }}
+                    className="rounded-full px-4 py-2 text-ink/70 transition-colors hover:bg-mist hover:text-ink"
+                  >
+                    {link.label}
+                  </ContactLink>
+                ) : (
+                  <NavLink
+                    key={link.href}
+                    to={link.href}
+                    className="rounded-full px-4 py-2 text-ink/70 transition-colors hover:bg-mist hover:text-ink"
+                  >
+                    {link.label}
+                  </NavLink>
+                )
               ))}
             </nav>
 
             <div className="flex items-center gap-3">
-              <Link
-                to="/contact"
+              <ContactLink
+                source={{ type: 'Header', cta: 'Get a Free ERP Assessment' }}
                 className="hidden md:inline-flex items-center gap-2 rounded-full accent-gradient px-5 py-3 text-sm font-medium text-white shadow-lg shadow-iris/25"
               >
                 Get a Free ERP Assessment
-              </Link>
+              </ContactLink>
               <button
                 type="button"
                 onClick={() => setMobileOpen((value) => !value)}
@@ -141,14 +152,25 @@ export function SiteLayout() {
                 <MobileMenuSection title="Products" items={navGroups.products} onNavigate={() => setMobileOpen(false)} />
                 <MobileMenuSection title="Industries" items={navGroups.industries} onNavigate={() => setMobileOpen(false)} />
                 {topLinks.map((link) => (
-                  <NavLink
-                    key={link.href}
-                    to={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="rounded-2xl px-4 py-3 text-sm text-ink/80 hover:bg-mist"
-                  >
-                    {link.label}
-                  </NavLink>
+                  link.href === '/contact' ? (
+                    <ContactLink
+                      key={link.href}
+                      source={{ type: 'Mobile navigation', cta: link.label }}
+                      onClick={() => setMobileOpen(false)}
+                      className="rounded-2xl px-4 py-3 text-sm text-ink/80 hover:bg-mist"
+                    >
+                      {link.label}
+                    </ContactLink>
+                  ) : (
+                    <NavLink
+                      key={link.href}
+                      to={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="rounded-2xl px-4 py-3 text-sm text-ink/80 hover:bg-mist"
+                    >
+                      {link.label}
+                    </NavLink>
+                  )
                 ))}
               </div>
             </div>
