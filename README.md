@@ -23,6 +23,10 @@ Temporary testing while the lead template is in review: set
 message to the test sender first. Free-form delivery requires that receiver's
 24-hour service window to remain open. Website visitors do not open this window
 by submitting the web form. This is not an unattended production configuration.
+After confirming the inbound team message, set `WHATSAPP_TEST_WINDOW_EXPIRES_AT`
+to an ISO timestamp before that message's 24-hour window expires, then redeploy.
+Without a valid future expiry (at most 24 hours ahead), text mode rejects submissions
+before calling Meta. Do not extend this timestamp without a fresh inbound message.
 Set the mode back to `template` after approval and redeploy. Temporary Meta tokens
 also expire; replace with an appropriate server-side production token before a
 permanent launch. Never treat an accepted message ID as proof of delivery.

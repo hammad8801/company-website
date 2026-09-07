@@ -185,6 +185,15 @@ export default async function handler(request: ApiRequest, response: ApiResponse
   // Explicit temporary test mode only: recipient must have messaged the sender
   // within the last 24 hours. There is no automatic template-to-text fallback.
   const deliveryMode = process.env.WHATSAPP_DELIVERY_MODE || 'template'
+  const testWindowExpiresAt = Date.parse(process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT || '')
+  const testWindowIsOpen = Number.isFinite(testWindowExpiresAt)
+    && testWindowExpiresAt > Date.now()
+    && testWindowExpiresAt <= Date.now() + 24 * 60 * 60 * 1_000
+
+  if (deliveryMode === 'text' && !testWindowIsOpen) {
+    response.status(503).json({ error: 'WhatsApp is temporarily unavailable. Please use Send via Email.' })
+    return
+  }
 
   if (
     !accessToken ||

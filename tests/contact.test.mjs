@@ -56,6 +56,13 @@ test('contact delivery contract', async (t) => {
   })
   await t.test('explicit temporary text mode includes the same source and contact details', async () => {
     process.env.WHATSAPP_DELIVERY_MODE = 'text'
+    delete process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT
+    assert.equal((await invoke()).status, 503)
+    assert.equal(calls.length, 0)
+    process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT = new Date(Date.now() - 1_000).toISOString()
+    assert.equal((await invoke()).status, 503)
+    assert.equal(calls.length, 0)
+    process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT = new Date(Date.now() + 60 * 60 * 1_000).toISOString()
     assert.equal((await invoke()).status, 200)
     assert.equal(calls.length, 1)
     assert.equal(calls[0].body.to, '918799010330')
