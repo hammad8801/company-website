@@ -49,6 +49,7 @@ test('CRM contact delivery contract', async (t) => {
       assert.equal(call.body.mobile_no, payload.whatsapp)
       assert.equal(call.body.company_name, payload.company)
       assert.equal(call.body.status, 'Lead')
+      assert.equal(call.body.custom_website_communication, preferredChannel === 'email' ? 'Email' : 'WhatsApp')
       for (const text of [payload.message, ...Object.values(payload.source), preferredChannel === 'email' ? 'Email' : 'WhatsApp', 'Contact consent']) {
         assert.ok(call.body.notes[0].note.includes(text))
       }

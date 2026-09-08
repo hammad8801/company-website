@@ -75,6 +75,7 @@ export default async function handler(request: ApiRequest, response: ApiResponse
     ...(preference === 'whatsapp' ? { whatsapp_no: phone } : {}),
     company_name: clean(input.company, 160),
     status: 'Lead',
+    custom_website_communication: preference === 'email' ? 'Email' : 'WhatsApp',
     notes: [{ note: '<p><strong>Website enquiry - Nexora</strong></p>' + lines.map(([label, value]) => '<p><strong>' + label + ':</strong> ' + escapeHtml(value || 'Not provided') + '</p>').join('') }],
   }
   try {
