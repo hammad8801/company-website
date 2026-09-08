@@ -58,6 +58,10 @@ export default async function handler(request: ApiRequest, response: ApiResponse
   }
   const source = input.source && typeof input.source === 'object' ? input.source : {}
   const lines = [
+    ['Submitted name', name],
+    ['Submitted email', email],
+    ['Submitted phone', phone],
+    ['Submitted company', clean(input.company, 160)],
     ['Requirement', message],
     ['Preferred communication', preference === 'whatsapp' ? 'WhatsApp' : 'Email'],
     ['Contact consent', 'Yes - permission to respond to this enquiry'],
@@ -79,14 +83,48 @@ export default async function handler(request: ApiRequest, response: ApiResponse
     notes: [{ note: '<p><strong>Website enquiry - Nexora</strong></p>' + lines.map(([label, value]) => '<p><strong>' + label + ':</strong> ' + escapeHtml(value || 'Not provided') + '</p>').join('') }],
   }
   try {
+    const headers = { Authorization: 'token ' + apiKey + ':' + apiSecret, 'Content-Type': 'application/json', Accept: 'application/json' }
+    const signal = AbortSignal.timeout(25_000)
     const result = await fetch(endpoint, {
       method: 'POST',
       redirect: 'error',
-      signal: AbortSignal.timeout(15_000),
-      headers: { Authorization: 'token ' + apiKey + ':' + apiSecret, 'Content-Type': 'application/json', Accept: 'application/json' },
+      signal,
+      headers,
       body: JSON.stringify(lead),
     })
     const body = await result.json().catch(() => ({}))
+    // A definite conflict is not a failed/ambiguous network request. Resolve only
+    // an exact email match, then append without overwriting staff-managed fields.
+    if (result.status === 409) {
+      const lookupUrl = new URL(endpoint)
+      lookupUrl.searchParams.set('filters', JSON.stringify([['email_id', '=', email]]))
+      lookupUrl.searchParams.set('fields', JSON.stringify(['name', 'email_id']))
+      lookupUrl.searchParams.set('limit_page_length', '2')
+      const lookup = await fetch(lookupUrl.href, { method: 'GET', headers, redirect: 'error', signal })
+      const matches = await lookup.json().catch(() => ({}))
+      if (!lookup.ok || !Array.isArray(matches.data) || matches.data.length !== 1
+        || typeof matches.data[0]?.name !== 'string' || !matches.data[0].name
+        || typeof matches.data[0].email_id !== 'string'
+        || matches.data[0].email_id.toLowerCase() !== email.toLowerCase()) {
+        throw new Error('Could not resolve an unambiguous existing lead')
+      }
+      const leadId = matches.data[0].name
+      const appended = await fetch(new URL('/api/resource/Comment', endpoint).href, {
+        method: 'POST', headers, redirect: 'error', signal,
+        body: JSON.stringify({
+          comment_type: 'Comment', reference_doctype: 'Lead', reference_name: leadId,
+          comment_email: email, comment_by: name,
+          subject: 'Nexora Website Enquiry - ' + (preference === 'email' ? 'Email' : 'WhatsApp'),
+          content: lead.notes[0].note,
+        }),
+      })
+      const saved = await appended.json().catch(() => ({}))
+      if (!appended.ok || typeof saved.data?.name !== 'string' || !saved.data.name) {
+        throw new Error('Repeat enquiry append was not confirmed')
+      }
+      response.status(200).json({ ok: true, leadId })
+      return
+    }
     if (!result.ok || typeof body.data?.name !== 'string' || !body.data.name) {
       console.error('CRM lead creation failed', { status: result.status })
       response.status(502).json({ error: 'We could not confirm your enquiry. Please contact us by email if this continues.' })

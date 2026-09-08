@@ -98,4 +98,52 @@ test('CRM contact delivery contract', async (t) => {
     assert.equal((await invoke()).status, 502)
     assert.equal(attempts, 1)
   })
+  await t.test('409 appends both preferences to one exact lead without replacing its history', async () => {
+    for (const preferredChannel of ['email', 'whatsapp']) {
+      globalThis.fetch = async (url, options) => {
+        calls.push({ url, ...options, body: options.body ? JSON.parse(options.body) : undefined })
+        if (calls.length === 1) return Response.json({}, { status: 409 })
+        if (calls.length === 2) return Response.json({ data: [{ name: 'EXISTING', email_id: payload.email }] })
+        return Response.json({ data: { name: 'COMMENT' } })
+      }
+      const result = await invoke({ ...payload, preferredChannel })
+      assert.equal(result.status, 200)
+      assert.equal(result.body.leadId, 'EXISTING')
+      assert.equal(calls.length, 3)
+      const lookup = new URL(calls[1].url)
+      assert.deepEqual(JSON.parse(lookup.searchParams.get('filters')), [['email_id', '=', payload.email]])
+      assert.equal(lookup.searchParams.get('limit_page_length'), '2')
+      const append = calls[2]
+      assert.equal(append.url, 'https://crm.example.com/api/resource/Comment')
+      assert.equal(append.body.reference_name, 'EXISTING')
+      assert.equal(append.body.comment_email, payload.email)
+      assert.equal(append.body.subject, 'Nexora Website Enquiry - ' + (preferredChannel === 'email' ? 'Email' : 'WhatsApp'))
+      for (const text of [payload.name, payload.email, payload.whatsapp, payload.message, ...Object.values(payload.source)]) {
+        assert.ok(append.body.content.includes(text))
+      }
+      assert.equal(calls.some(call => call.method === 'PUT' || call.method === 'PATCH'), false)
+    }
+  })
+  await t.test('unresolved conflicts and failed appends never report success', async () => {
+    for (const matches of [[], [{ name: 'X', email_id: 'other@example.com' }],
+      [{ name: 'X', email_id: payload.email }, { name: 'Y', email_id: payload.email }]]) {
+      globalThis.fetch = async () => {
+        calls.push({})
+        return calls.length === 1 ? Response.json({}, { status: 409 }) : Response.json({ data: matches })
+      }
+      assert.equal((await invoke()).status, 502)
+      assert.equal(calls.length, 2)
+    }
+    for (const failure of ['error', 'missing-id', 'timeout']) {
+      globalThis.fetch = async () => {
+        calls.push({})
+        if (calls.length === 1) return Response.json({}, { status: 409 })
+        if (calls.length === 2) return Response.json({ data: [{ name: 'X', email_id: payload.email }] })
+        if (failure === 'timeout') throw new Error('timeout')
+        return Response.json({}, { status: failure === 'error' ? 403 : 200 })
+      }
+      assert.equal((await invoke()).status, 502)
+      assert.equal(calls.length, 3)
+    }
+  })
 })
