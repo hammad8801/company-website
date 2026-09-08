@@ -63,6 +63,23 @@ test('CRM contact delivery contract', async (t) => {
       assert.equal(calls[0].body.first_name, payload.name)
     }
   })
+  await t.test('normalizes India numbers and preserves explicit international country codes', async () => {
+    for (const [whatsapp, expected] of [
+      ['8401874421', '+918401874421'], ['91 84018 74421', '+918401874421'],
+      ['+91 84018-74421', '+918401874421'], ['0091 8401874421', '+918401874421'],
+      ['+1 (202) 555-0100', '+12025550100'],
+    ]) {
+      assert.equal((await invoke({ ...payload, whatsapp })).status, 200)
+      assert.equal(calls[0].body.mobile_no, expected)
+      assert.equal(calls[0].body.whatsapp_no, expected)
+      assert.ok(calls[0].body.notes[0].note.includes(expected))
+    }
+    for (const extra of [{ whatsapp: '8401874421', phoneRegion: 'international' },
+      { whatsapp: '+91 840187442' }, { whatsapp: '+0918401874421' }, { whatsapp: '840187442' }]) {
+      assert.equal((await invoke({ ...payload, ...extra })).status, 400)
+      assert.equal(calls.length, 0)
+    }
+  })
   await t.test('invalid input, preference, missing consent and oversized bodies fail before CRM', async () => {
     for (const body of [{ ...payload, consent: false }, { ...payload, email: 'invalid' },
       { ...payload, preferredChannel: 'sms' }, { ...payload, preferredChannel: undefined },

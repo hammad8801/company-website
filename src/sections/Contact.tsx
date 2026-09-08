@@ -44,6 +44,7 @@ export function Contact() {
             email,
             company: clientCompany,
             whatsapp,
+            phoneRegion: String(form.get('phoneRegion') || 'IN'),
             message,
             consent,
             preferredChannel,
@@ -152,8 +153,15 @@ export function Contact() {
               placeholder="Acme Inc."
               required={false}
             />
+            <label className="block">
+              <span className="text-xs uppercase tracking-[0.2em] text-iris/70">Phone country / region</span>
+              <select name="phoneRegion" defaultValue="IN" className="mt-2 w-full border-b border-ink/15 bg-white px-1 py-3 text-ink focus:outline-none focus:border-iris">
+                <option value="IN">India (+91)</option>
+                <option value="international">Other country — include country code</option>
+              </select>
+            </label>
             <Field
-              label="Contact number"
+              label="Contact number (include country code outside India)"
               type="tel"
               name="whatsapp"
               placeholder="+91 98765 43210"

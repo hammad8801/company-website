@@ -28,3 +28,39 @@ delivery. This configuration must be provisioned before deploying to another sit
 
 The preference is retained in Notes too for continuity with earlier enquiries.
 Credentials remain in Vercel server environment variables, not this repository.
+
+## Internal lead alerts
+
+Two separate production Email Notifications notify the team for either preferred
+channel. Customer acknowledgement rules above remain unchanged.
+
+- `Nexora Internal New Lead Alert`: New Lead; condition
+  `doc.owner == "info.nexorasolution@gmail.com" and doc.custom_website_communication in ("Email", "WhatsApp")`.
+- `Nexora Internal Repeat Enquiry Alert`: New Comment; condition
+  `doc.reference_doctype == "Lead" and doc.comment_type == "Comment" and doc.subject in ("Nexora Website Enquiry - Email", "Nexora Website Enquiry - WhatsApp") and doc.owner == "info.nexorasolution@gmail.com"`.
+- Both use sender `Nexorasolution`. One recipient row has only CC
+  `info.nexorasolution+leads@gmail.com` (the existing business Gmail inbox).
+  No customer recipient field, role recipients, BCC, or attachments.
+- Templates include the saved enquiry note/content, preferred channel, source
+  metadata, CRM link, and `https://wa.me/<digits>` link. Repeats use the latest
+  Comment phone, not the original Lead phone. The repeat phone is extracted from
+  the server-generated `<strong>Submitted phone:</strong> ` note label; update
+  the notification template if that format changes.
+- The contact form defaults to India (+91), with an explicit international option.
+  The API normalizes ten-digit Indian mobile numbers to +91 (including cached
+  forms), preserves explicit +/00 international prefixes, and rejects ambiguous
+  unprefixed international numbers. Both new Lead fields and repeat Comment notes
+  receive the normalized number. Templates remove punctuation from that number.
+  Old saved notes/emails are not rewritten. Opening the link
+  does not send a message; staff must check the preference and send manually.
+- These are queued emails, not native mobile push. Enable Gmail notifications
+  for the business mailbox; scheduler, Gmail and device settings affect timing.
+- Configuration lives in Frappe, so no website redeployment is needed.
+
+Verification on 2026-09-08 created labelled test Leads
+`CRM-LEAD-2026-00011` and `CRM-LEAD-2026-00012`, with repeat Comments.
+The final new and repeat tests on `00012` queued only the internal recipient
+(`coc4ivbfbg` and `6ofifa42vv`). Rendered source metadata and distinct WhatsApp
+targets `12025550100` / `12025550101` were checked without contacting those numbers.
+Both queues subsequently reached `Sent` automatically (no Send Now action).
+This confirms SMTP handoff, not the recipient phone's notification or inbox placement.

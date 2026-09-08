@@ -34,16 +34,25 @@ export default async function handler(request: ApiRequest, response: ApiResponse
   }
   const name = clean(input.name, 120)
   const email = clean(input.email, 254)
-  const phone = clean(input.whatsapp, 40)
+  const rawPhone = clean(input.whatsapp, 40)
+  const digits = rawPhone.replace(/\D/g, '')
+  const international = rawPhone.startsWith('+') || rawPhone.startsWith('00')
+  const phone = international
+    ? '+' + (rawPhone.startsWith('00') ? digits.slice(2) : digits)
+    : input.phoneRegion !== 'international' && /^[6-9]\d{9}$/.test(digits)
+      ? '+91' + digits
+      : input.phoneRegion !== 'international' && /^91[6-9]\d{9}$/.test(digits)
+        ? '+' + digits : ''
   const message = clean(input.message, 2000)
   // Older cached forms sent this display placeholder as an actual company.
   const companyValue = clean(input.company, 160)
   const company = companyValue.toLowerCase() === 'not provided' ? '' : companyValue
   const preference = input.preferredChannel
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    || !/^\+?[\d\s().-]{10,40}$/.test(phone) || !/^\d{10,15}$/.test(phone.replace(/\D/g, ''))
+    || !/^\+?[\d\s().-]{8,40}$/.test(rawPhone) || !/^\+[1-9]\d{7,14}$/.test(phone)
+    || (phone.startsWith('+91') && !/^\+91[6-9]\d{9}$/.test(phone))
     || !message || input.consent !== true || !['email', 'whatsapp'].includes(preference)) {
-    response.status(400).json({ error: 'Please provide valid contact details, a preferred communication mode, and consent.' })
+    response.status(400).json({ error: 'Please provide valid contact details, a preferred communication mode, and consent. For India, enter a 10-digit mobile number; for other countries, include + and the country code.' })
     return
   }
 
