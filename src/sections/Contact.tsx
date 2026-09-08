@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { CheckCircle2, Mail, MapPin, MessageCircle, X, XCircle } from 'lucide-react'
+import { CheckCircle2, Mail, MapPin, Send, X, XCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { company } from '@/data/site'
@@ -24,8 +24,8 @@ export function Contact() {
     e.preventDefault()
     const formElement = e.currentTarget
     const form = new FormData(formElement)
-    const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null
-    const channel = submitter?.value || 'whatsapp'
+    if (submission.status === 'submitting') return
+    const preferredChannel = String(form.get('preferredChannel') || '')
     const name = String(form.get('name') || '').trim()
     const email = String(form.get('email') || '').trim()
     const clientCompany = String(form.get('company') || '').trim() || 'Not provided'
@@ -33,7 +33,7 @@ export function Contact() {
     const message = String(form.get('message') || '').trim()
     const consent = form.get('contactConsent') === 'on'
 
-    if (channel === 'whatsapp') {
+    {
       setSubmission({ status: 'submitting', message: '' })
       try {
         const apiResponse = await fetch('/api/contact', {
@@ -46,6 +46,7 @@ export function Contact() {
             whatsapp,
             message,
             consent,
+            preferredChannel,
             source: {
               ...source,
               path: source.path.startsWith('/')
@@ -54,8 +55,8 @@ export function Contact() {
             },
           }),
         })
-        const result = await apiResponse.json().catch(() => ({})) as { error?: string }
-        if (!apiResponse.ok) {
+        const result = await apiResponse.json().catch(() => ({})) as { error?: string; ok?: boolean; leadId?: string }
+        if (!apiResponse.ok || !result.ok || !result.leadId) {
           throw new Error(result.error || 'Unable to submit your enquiry.')
         }
         formElement.reset()
@@ -74,27 +75,7 @@ export function Contact() {
       return
     }
 
-    const sourceUrl = source.path.startsWith('/')
-      ? `${window.location.origin}${source.path}`
-      : source.path
-    const enquiry = [
-      'New website enquiry',
-      '',
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Company: ${clientCompany}`,
-      `WhatsApp: ${whatsapp}`,
-      `Requirement: ${message}`,
-      '',
-      'Lead metadata',
-      `Source type: ${source.type}`,
-      ...(source.title ? [`Source item: ${source.title}`] : []),
-      ...(source.slug ? [`Source slug: ${source.slug}`] : []),
-      `Source page: ${sourceUrl}`,
-      ...(source.cta ? [`CTA: ${source.cta}`] : []),
-    ].join('\n')
-    const subjectItem = source.title ? ` - ${source.title}` : ''
-    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(`Website enquiry${subjectItem}`)}&body=${encodeURIComponent(enquiry)}`
+
   }
 
   return (
@@ -177,6 +158,14 @@ export function Contact() {
               name="whatsapp"
               placeholder="+91 98765 43210"
             />
+            <label className="block">
+              <span className="text-xs uppercase tracking-[0.2em] text-iris/70">Preferred mode of communication</span>
+              <select name="preferredChannel" required defaultValue="" className="mt-2 w-full border-b border-ink/15 bg-white px-1 py-3 text-ink focus:outline-none focus:border-iris">
+                <option value="" disabled>Select a communication mode</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="email">Email</option>
+              </select>
+            </label>
             <Field
               label="What do you want to build?"
               name="message"
@@ -195,29 +184,18 @@ export function Contact() {
             <span>I agree that NexoraSolution may use my details to respond to this enquiry.</span>
           </label>
 
-          <div className="relative mt-8 grid gap-3 sm:grid-cols-2">
+          <div className="relative mt-8">
             <button
               type="submit"
-              name="channel"
-              value="whatsapp"
               disabled={submission.status === 'submitting'}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-4 font-medium text-white shadow-lg shadow-[#25D366]/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#25D366]/30 disabled:cursor-wait disabled:opacity-60"
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-full accent-gradient px-6 py-4 font-medium text-white shadow-lg shadow-iris/30 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-wait disabled:opacity-60"
             >
-              <MessageCircle className="h-4 w-4" />
-              {submission.status === 'submitting' ? 'Sending...' : 'Send via WhatsApp'}
-            </button>
-            <button
-              type="submit"
-              name="channel"
-              value="email"
-              className="group inline-flex items-center justify-center gap-2 rounded-full accent-gradient px-6 py-4 font-medium text-white shadow-lg shadow-iris/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-iris/40"
-            >
-              <Mail className="h-4 w-4" />
-              Send via Email
+              <Send className="h-4 w-4" />
+              {submission.status === 'submitting' ? 'Submitting...' : 'Submit'}
             </button>
           </div>
           <p className="relative mt-4 text-center text-xs leading-relaxed text-muted">
-            WhatsApp submissions stay on this page. Email submissions open your email app with the enquiry details pre-filled.
+            Our team will respond using your preferred communication mode.
           </p>
         </motion.form>
       </div>

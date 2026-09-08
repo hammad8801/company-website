@@ -4,27 +4,24 @@ import handler from '../api/contact.ts'
 
 const payload = {
   name: 'Integration Test', email: 'test@example.com', company: 'Example Company',
-  whatsapp: '2025550100', message: 'Test enquiry', consent: true,
+  whatsapp: '+12025550100', message: 'Test enquiry', consent: true, preferredChannel: 'whatsapp',
   source: { path: 'https://www.nexorasolution.io/products/export-price-calculation',
     type: 'Product', title: 'Export Price Calculation', slug: 'export-price-calculation', cta: 'Contact us' },
 }
 
-test('contact delivery contract', async (t) => {
+test('CRM contact delivery contract', async (t) => {
   const previousFetch = globalThis.fetch
   const originalEnv = { ...process.env }
   Object.assign(process.env, {
-    WHATSAPP_ACCESS_TOKEN: 'test-only-not-a-real-token', WHATSAPP_PHONE_NUMBER_ID: 'test-sender',
-    META_GRAPH_API_VERSION: 'v25.0', WHATSAPP_LEAD_RECIPIENT: '918799010330',
-    WHATSAPP_LEAD_TEMPLATE_NAME: 'new_website_lead', WHATSAPP_TEMPLATE_LANGUAGE: 'en_US',
-    WHATSAPP_DELIVERY_MODE: 'template',
+    FRAPPE_BASE_URL: 'https://crm.example.com', FRAPPE_API_KEY: 'test-key', FRAPPE_API_SECRET: 'test-secret',
   })
   t.after(() => { globalThis.fetch = previousFetch; process.env = originalEnv })
   let calls = []
-  let metaStatus = 200
-  let metaBody = { messages: [{ id: 'test-message-id' }] }
+  let upstreamStatus = 200
+  let upstreamBody = { data: { name: 'TEST-LEAD-1' } }
   globalThis.fetch = async (url, options) => {
     calls.push({ url, ...options, body: JSON.parse(options.body) })
-    return new Response(JSON.stringify(metaBody), { status: metaStatus })
+    return new Response(JSON.stringify(upstreamBody), { status: upstreamStatus })
   }
   const invoke = async (body = payload, method = 'POST') => {
     calls = []
@@ -37,58 +34,67 @@ test('contact delivery contract', async (t) => {
     await handler({ method, body }, response)
     return result
   }
-  await t.test('one team message with all eight fields; never messages the customer', async () => {
-    const result = await invoke()
-    assert.equal(result.status, 200)
-    assert.equal(result.body.leadMessageId, 'test-message-id')
-    assert.equal(calls.length, 1)
-    assert.equal(calls[0].body.to, '918799010330')
-    assert.deepEqual(calls[0].body.template.components[0].parameters.map(p => p.text), [
-      payload.name, payload.email, payload.company, '912025550100', payload.message,
-      'Product - Export Price Calculation - export-price-calculation', payload.source.path, 'Contact us',
-    ])
+  await t.test('both preferences create one lead with contact details and all attribution', async () => {
+    for (const preferredChannel of ['whatsapp', 'email']) {
+      const result = await invoke({ ...payload, preferredChannel })
+      assert.equal(result.status, 200)
+      assert.equal(result.body.leadId, 'TEST-LEAD-1')
+      assert.equal(calls.length, 1)
+      const call = calls[0]
+      assert.equal(call.url, 'https://crm.example.com/api/resource/Lead')
+      assert.equal(call.headers.Authorization, 'token test-key:test-secret')
+      assert.equal(call.redirect, 'error')
+      assert.equal(call.body.first_name, payload.name)
+      assert.equal(call.body.email_id, payload.email)
+      assert.equal(call.body.mobile_no, payload.whatsapp)
+      assert.equal(call.body.company_name, payload.company)
+      assert.equal(call.body.status, 'Lead')
+      for (const text of [payload.message, ...Object.values(payload.source), preferredChannel === 'email' ? 'Email' : 'WhatsApp', 'Contact consent']) {
+        assert.ok(call.body.notes[0].note.includes(text))
+      }
+      assert.equal(JSON.stringify(result.body).includes('test-secret'), false)
+    }
   })
-  await t.test('invalid input and missing consent do not call Meta', async () => {
-    for (const body of [{ ...payload, consent: false }, { ...payload, email: 'invalid' }, '{', null]) {
+  await t.test('invalid input, preference, missing consent and oversized bodies fail before CRM', async () => {
+    for (const body of [{ ...payload, consent: false }, { ...payload, email: 'invalid' },
+      { ...payload, preferredChannel: 'sms' }, { ...payload, preferredChannel: undefined },
+      { ...payload, whatsapp: 'call 1234567890' }, { ...payload, message: 'x'.repeat(21000) }, '{', null, []]) {
       assert.equal((await invoke(body)).status, 400)
       assert.equal(calls.length, 0)
     }
   })
-  await t.test('explicit temporary text mode includes the same source and contact details', async () => {
-    process.env.WHATSAPP_DELIVERY_MODE = 'text'
-    delete process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT
-    assert.equal((await invoke()).status, 503)
-    assert.equal(calls.length, 0)
-    process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT = new Date(Date.now() - 1_000).toISOString()
-    assert.equal((await invoke()).status, 503)
-    assert.equal(calls.length, 0)
-    process.env.WHATSAPP_TEST_WINDOW_EXPIRES_AT = new Date(Date.now() + 60 * 60 * 1_000).toISOString()
-    assert.equal((await invoke()).status, 200)
-    assert.equal(calls.length, 1)
-    assert.equal(calls[0].body.to, '918799010330')
-    assert.equal(calls[0].body.type, 'text')
-    assert.equal(calls[0].body.template, undefined)
-    assert.ok(calls[0].body.text.body.includes(payload.source.path))
-    assert.ok(calls[0].body.text.body.includes(payload.email))
-    assert.ok(calls[0].body.text.body.includes(payload.message))
-    process.env.WHATSAPP_DELIVERY_MODE = 'invalid'
-    assert.equal((await invoke()).status, 503)
-    assert.equal(calls.length, 0)
-    process.env.WHATSAPP_DELIVERY_MODE = 'template'
+  await t.test('untrusted input is escaped in the rich-text CRM note', async () => {
+    await invoke({ ...payload, message: '<script>alert(1)</script>', source: { title: '<img src=x onerror=alert(1)>' } })
+    const note = calls[0].body.notes[0].note
+    assert.ok(note.includes('&lt;script&gt;'))
+    assert.equal(note.includes('<script>'), false)
+    assert.equal(note.includes('<img'), false)
+    assert.ok(note.includes('Direct visit'))
   })
-  await t.test('GET is rejected and missing configuration fails closed', async () => {
+  await t.test('GET and invalid server configuration fail closed', async () => {
     assert.equal((await invoke(payload, 'GET')).status, 405)
-    delete process.env.WHATSAPP_ACCESS_TOKEN
+    delete process.env.FRAPPE_API_SECRET
     assert.equal((await invoke()).status, 503)
     assert.equal(calls.length, 0)
-    process.env.WHATSAPP_ACCESS_TOKEN = 'test-only-not-a-real-token'
+    process.env.FRAPPE_API_SECRET = 'test-secret'
+    process.env.FRAPPE_BASE_URL = 'http://crm.example.com'
+    assert.equal((await invoke()).status, 503)
+    process.env.FRAPPE_BASE_URL = 'https://crm.example.com'
   })
-  await t.test('Meta failures and missing message IDs cannot display success', async () => {
-    metaStatus = 400
-    metaBody = { error: { code: 132001 } }
+  await t.test('CRM errors and missing lead ID never report success or retry', async () => {
+    upstreamStatus = 403
+    upstreamBody = { exception: 'private upstream details' }
     assert.equal((await invoke()).status, 502)
-    metaStatus = 200
-    metaBody = {}
+    assert.equal(calls.length, 1)
+    upstreamStatus = 200
+    upstreamBody = {}
     assert.equal((await invoke()).status, 502)
+    assert.equal(calls.length, 1)
+  })
+  await t.test('network timeout has an honest error and no automatic retry', async () => {
+    let attempts = 0
+    globalThis.fetch = async () => { attempts++; throw new Error('private network error') }
+    assert.equal((await invoke()).status, 502)
+    assert.equal(attempts, 1)
   })
 })
