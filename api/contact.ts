@@ -36,6 +36,9 @@ export default async function handler(request: ApiRequest, response: ApiResponse
   const email = clean(input.email, 254)
   const phone = clean(input.whatsapp, 40)
   const message = clean(input.message, 2000)
+  // Older cached forms sent this display placeholder as an actual company.
+  const companyValue = clean(input.company, 160)
+  const company = companyValue.toLowerCase() === 'not provided' ? '' : companyValue
   const preference = input.preferredChannel
   if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     || !/^\+?[\d\s().-]{10,40}$/.test(phone) || !/^\d{10,15}$/.test(phone.replace(/\D/g, ''))
@@ -61,7 +64,7 @@ export default async function handler(request: ApiRequest, response: ApiResponse
     ['Submitted name', name],
     ['Submitted email', email],
     ['Submitted phone', phone],
-    ['Submitted company', clean(input.company, 160)],
+    ['Submitted company', company],
     ['Requirement', message],
     ['Preferred communication', preference === 'whatsapp' ? 'WhatsApp' : 'Email'],
     ['Contact consent', 'Yes - permission to respond to this enquiry'],
@@ -77,7 +80,7 @@ export default async function handler(request: ApiRequest, response: ApiResponse
     email_id: email,
     mobile_no: phone,
     ...(preference === 'whatsapp' ? { whatsapp_no: phone } : {}),
-    company_name: clean(input.company, 160),
+    company_name: company,
     status: 'Lead',
     custom_website_communication: preference === 'email' ? 'Email' : 'WhatsApp',
     notes: [{ note: '<p><strong>Website enquiry - Nexora</strong></p>' + lines.map(([label, value]) => '<p><strong>' + label + ':</strong> ' + escapeHtml(value || 'Not provided') + '</p>').join('') }],

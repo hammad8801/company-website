@@ -28,7 +28,7 @@ export function Contact() {
     const preferredChannel = String(form.get('preferredChannel') || '')
     const name = String(form.get('name') || '').trim()
     const email = String(form.get('email') || '').trim()
-    const clientCompany = String(form.get('company') || '').trim() || 'Not provided'
+    const clientCompany = String(form.get('company') || '').trim()
     const whatsapp = String(form.get('whatsapp') || '').trim()
     const message = String(form.get('message') || '').trim()
     const consent = form.get('contactConsent') === 'on'

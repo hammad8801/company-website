@@ -56,6 +56,13 @@ test('CRM contact delivery contract', async (t) => {
       assert.equal(JSON.stringify(result.body).includes('test-secret'), false)
     }
   })
+  await t.test('blank and legacy placeholder company allow ERPNext to use the customer name as title', async () => {
+    for (const company of ['', undefined, 'Not provided', '  not PROVIDED  ']) {
+      assert.equal((await invoke({ ...payload, company })).status, 200)
+      assert.equal(calls[0].body.company_name, '')
+      assert.equal(calls[0].body.first_name, payload.name)
+    }
+  })
   await t.test('invalid input, preference, missing consent and oversized bodies fail before CRM', async () => {
     for (const body of [{ ...payload, consent: false }, { ...payload, email: 'invalid' },
       { ...payload, preferredChannel: 'sms' }, { ...payload, preferredChannel: undefined },
