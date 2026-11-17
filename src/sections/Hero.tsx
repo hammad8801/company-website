@@ -48,7 +48,7 @@ export function Hero() {
             <motion.div
               custom={0}
               variants={fadeUp}
-              className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/70 backdrop-blur px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-ink/70"
+              className="inline-flex items-center gap-2 rounded-full border border-iris/15 bg-white/80 shadow-sm backdrop-blur px-4 py-1.5 text-xs font-medium tracking-wider text-ink/80"
             >
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inset-0 rounded-full bg-iris animate-ping opacity-75" />
@@ -60,12 +60,12 @@ export function Hero() {
             <motion.h1
               custom={1}
               variants={fadeUp}
-              className="mt-6 text-5xl md:text-7xl lg:text-[88px] leading-[0.95] tracking-tight text-balance text-ink"
+              className="mt-6 text-5xl md:text-7xl lg:text-[84px] leading-[1.02] tracking-[-0.035em] text-balance text-ink font-bold"
             >
               Build powerful business systems with{' '}
-              <span className="italic font-light accent-text">ERPNext</span>
+              <span className="accent-text">ERPNext</span>
               {' & '}
-              <span className="italic font-light accent-text">Frappe</span>.
+              <span className="accent-text">Frappe</span>.
             </motion.h1>
 
             <motion.p
@@ -85,14 +85,14 @@ export function Hero() {
             >
               <Link
                 to="/contact"
-                className="group relative inline-flex items-center gap-2 rounded-full accent-gradient text-white px-7 py-3.5 text-sm font-medium overflow-hidden shadow-lg shadow-iris/30 hover:shadow-xl hover:shadow-iris/40 transition-shadow"
+                className="group relative inline-flex items-center gap-2 rounded-full accent-gradient text-white px-7 py-3.5 text-sm font-semibold shadow-md shadow-iris/25 hover:shadow-lg hover:shadow-iris/35 transition-all"
               >
                 <span className="relative">Get free consultation</span>
                 <span className="relative transition-transform group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 to="/work"
-                className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-white/60 backdrop-blur text-ink px-7 py-3.5 text-sm font-medium hover:bg-white hover:border-ink/25 transition-colors"
+                className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/80 shadow-sm backdrop-blur text-ink px-7 py-3.5 text-sm font-medium hover:bg-white hover:border-ink/20 transition-all"
               >
                 View our work
               </Link>
@@ -110,8 +110,8 @@ export function Hero() {
                 ['24/7', 'Support'],
               ].map(([n, l]) => (
                 <div key={l as string}>
-                  <div className="font-display text-3xl md:text-4xl text-ink">{n}</div>
-                  <div className="mt-1 text-xs uppercase tracking-wider text-muted">{l}</div>
+                  <div className="font-display font-bold text-3xl md:text-4xl text-ink tracking-tight">{n}</div>
+                  <div className="mt-1 text-xs uppercase tracking-wider text-muted font-medium">{l}</div>
                 </div>
               ))}
             </motion.div>

@@ -7,26 +7,26 @@ export function HeroScene() {
 
       <div
         aria-hidden
-        className="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-60"
+        className="absolute -top-32 -left-24 h-[520px] w-[520px] rounded-full blur-3xl opacity-50"
         style={{
           background:
-            'radial-gradient(circle at 30% 30%, rgba(94,100,255,0.55), transparent 70%)',
+            'radial-gradient(circle at 30% 30%, rgba(37,99,235,0.25), transparent 70%)',
         }}
       />
       <div
         aria-hidden
-        className="absolute top-1/3 -right-32 h-[600px] w-[600px] rounded-full blur-3xl opacity-55"
+        className="absolute top-1/3 -right-32 h-[600px] w-[600px] rounded-full blur-3xl opacity-45"
         style={{
           background:
-            'radial-gradient(circle at 60% 50%, rgba(168,85,247,0.5), transparent 70%)',
+            'radial-gradient(circle at 60% 50%, rgba(79,70,229,0.22), transparent 70%)',
         }}
       />
       <div
         aria-hidden
-        className="absolute -bottom-40 left-1/3 h-[500px] w-[500px] rounded-full blur-3xl opacity-45"
+        className="absolute -bottom-40 left-1/3 h-[500px] w-[500px] rounded-full blur-3xl opacity-35"
         style={{
           background:
-            'radial-gradient(circle at 50% 50%, rgba(236,72,153,0.45), transparent 70%)',
+            'radial-gradient(circle at 50% 50%, rgba(14,165,233,0.18), transparent 70%)',
         }}
       />
 
@@ -34,13 +34,13 @@ export function HeroScene() {
         aria-hidden
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
-        className="absolute inset-0 h-full w-full opacity-[0.18]"
+        className="absolute inset-0 h-full w-full opacity-[0.14]"
       >
         <defs>
           <linearGradient id="hero-stroke" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#5E64FF" />
-            <stop offset="50%" stopColor="#A855F7" />
-            <stop offset="100%" stopColor="#EC4899" />
+            <stop offset="0%" stopColor="#1D4ED8" />
+            <stop offset="50%" stopColor="#2563EB" />
+            <stop offset="100%" stopColor="#4F46E5" />
           </linearGradient>
         </defs>
         <g stroke="url(#hero-stroke)" strokeWidth="1.2" fill="none">

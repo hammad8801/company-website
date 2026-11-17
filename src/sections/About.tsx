@@ -35,7 +35,7 @@ export function About() {
 
         <div className="grid md:grid-cols-12 gap-10">
           <div className="md:col-span-8">
-            <h2 className="text-4xl md:text-6xl leading-[1.1] tracking-tight text-balance text-ink">
+            <h2 className="font-display font-bold text-4xl md:text-6xl leading-[1.1] tracking-[-0.03em] text-balance text-ink">
               {paragraphs[0].split(' ').map((word, i) => (
                 <Word key={i} progress={scrollYProgress} index={i} total={paragraphs[0].split(' ').length}>
                   {word}

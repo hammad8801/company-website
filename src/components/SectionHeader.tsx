@@ -17,9 +17,9 @@ export function SectionHeader({ eyebrow, title, description, align = 'left' }: P
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-iris"
+          className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-iris"
         >
-          <span className="h-px w-6 bg-iris" />
+          <span className="h-0.5 w-5 rounded-full bg-iris" />
           {eyebrow}
         </motion.div>
       )}
@@ -28,7 +28,7 @@ export function SectionHeader({ eyebrow, title, description, align = 'left' }: P
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        className="mt-5 text-4xl md:text-6xl leading-[1.05] tracking-tight text-ink text-balance"
+        className="mt-4 font-display font-bold text-3xl md:text-5xl lg:text-[52px] leading-[1.1] tracking-[-0.03em] text-ink text-balance"
       >
         {title}
       </motion.h2>
@@ -38,7 +38,7 @@ export function SectionHeader({ eyebrow, title, description, align = 'left' }: P
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-          className="mt-6 text-lg text-muted leading-relaxed text-balance"
+          className="mt-5 text-base md:text-lg text-muted leading-relaxed text-balance"
         >
           {description}
         </motion.p>

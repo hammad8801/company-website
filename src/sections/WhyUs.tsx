@@ -37,7 +37,7 @@ export function WhyUs() {
           title={
             <>
               Built like a product team,{' '}
-              <span className="italic font-light accent-text">not</span> a
+              <span className="accent-text font-bold">not</span> a
               services agency.
             </>
           }

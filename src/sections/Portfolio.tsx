@@ -15,7 +15,7 @@ export function Portfolio() {
           title={
             <>
               A few things we’ve{' '}
-              <span className="italic font-light accent-text">shipped</span>.
+              <span className="accent-text font-bold">shipped</span>.
             </>
           }
           description="Selected projects across ERP, mobile, and web. Full case studies on request."

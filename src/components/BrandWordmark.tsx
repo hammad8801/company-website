@@ -9,10 +9,10 @@ export function BrandWordmark({ className, lineClassName }: BrandWordmarkProps) 
   return (
     <span
       className={cn(
-        'inline-flex flex-col font-bold uppercase leading-[0.86] tracking-normal text-black',
+        'inline-flex flex-col font-bold uppercase leading-[0.88] tracking-tight text-ink',
         className,
       )}
-      style={{ fontFamily: '"Poppins", var(--font-display)' }}
+      style={{ fontFamily: 'var(--font-display)' }}
     >
       <span className={lineClassName}>Nexora</span>
       <span className={lineClassName}>Solution</span>

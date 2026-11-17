@@ -34,10 +34,10 @@ export function LeadMagnetModal() {
             >
               ×
             </button>
-            <span className="inline-flex rounded-full border border-ink/10 bg-mist/50 px-4 py-1.5 text-xs uppercase tracking-[0.22em] text-iris">
+            <span className="inline-flex rounded-full border border-iris/20 bg-iris/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-iris">
               Free download
             </span>
-            <h3 className="mt-5 font-display text-3xl text-ink">The ERP Readiness Checklist</h3>
+            <h3 className="mt-5 font-display font-bold text-2xl md:text-3xl tracking-tight text-ink">The ERP Readiness Checklist</h3>
             <p className="mt-4 text-muted leading-relaxed">
               27 questions across data, processes, and people that tell you whether your business is ready for ERP, and what to fix first if it is not.
             </p>

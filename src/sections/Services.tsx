@@ -16,8 +16,8 @@ export function Services() {
           title={
             <>
               One partner for ERP,{' '}
-              <span className="italic font-light accent-text">mobile</span>,
-              and <span className="italic font-light accent-text">web</span>.
+              <span className="accent-text font-bold">mobile</span>,
+              and <span className="accent-text font-bold">web</span>.
             </>
           }
           description="From rollout to ongoing support — we ship complete digital systems, not just code."

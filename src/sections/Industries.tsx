@@ -34,7 +34,7 @@ export function Industries() {
               key={`${name}-${i}`}
               className="flex items-center gap-6 md:gap-10 shrink-0"
             >
-              <span className="font-display text-3xl md:text-5xl text-ink/80">
+              <span className="font-display font-bold text-3xl md:text-5xl tracking-tight text-ink/85 hover:text-ink transition-colors">
                 {name}
               </span>
               <span className="h-2 w-2 rounded-full accent-gradient" />

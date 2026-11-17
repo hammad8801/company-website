@@ -42,7 +42,7 @@ export function Contact() {
             className="mt-5 font-display text-4xl md:text-6xl leading-[1.05] tracking-tight text-balance text-ink"
           >
             Have a project in mind?{' '}
-            <span className="italic font-light accent-text">Let's talk.</span>
+            <span className="accent-text font-bold">Let's talk.</span>
           </motion.h2>
 
           <p className="mt-6 text-muted text-lg max-w-md">

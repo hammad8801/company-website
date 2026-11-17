@@ -21,7 +21,7 @@ export function Products() {
           title={
             <>
               Ready-to-deploy{' '}
-              <span className="italic font-light accent-text">
+              <span className="accent-text font-bold">
                 business modules
               </span>
               .

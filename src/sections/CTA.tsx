@@ -40,7 +40,7 @@ export function CTA() {
               className="mt-6 font-display text-5xl md:text-7xl leading-[0.95] tracking-tight text-ink text-balance"
             >
               Ready to{' '}
-              <span className="italic font-light accent-text">automate</span>{' '}
+              <span className="accent-text font-bold">automate</span>{' '}
               your business?
             </motion.h2>
             <p className="mt-8 text-lg text-muted max-w-md">
